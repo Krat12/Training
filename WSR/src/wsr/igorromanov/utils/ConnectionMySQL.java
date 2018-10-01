@@ -1,4 +1,4 @@
-package wsr.igorromanov.WindowInput;
+package wsr.igorromanov.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,10 +7,10 @@ import javax.swing.JOptionPane;
 
 
 public class ConnectionMySQL {
-    public static Connection con;
+    private static Connection con;
     
     public static Connection getConnection(){
-        String url = "jdbc:mysql://localhost:3306/mydb";
+        String url = "jdbc:mysql://localhost:3306/wsr";
         String user = "root";
         String password = "18lulego123";
        
