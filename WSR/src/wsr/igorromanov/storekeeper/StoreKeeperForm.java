@@ -5,7 +5,7 @@
  */
 package wsr.igorromanov.storekeeper;
 
-import wsr.igorromanov.storekeeper.insertstock.InsertStockForm;
+import wsr.igorromanov.storekeeper.insertstock.CatalogeForm;
 import wsr.igorromanov.storekeeper.inventory.InventoryForm;
 import static wsr.igorromanov.storekeeper.inventory.InventoryForm.PanelID;
 
@@ -152,7 +152,7 @@ public class StoreKeeperForm extends javax.swing.JFrame {
 
     private void btn_insertStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_insertStockActionPerformed
         this.dispose();
-        InsertStockForm stock = new InsertStockForm();
+        CatalogeForm stock = new CatalogeForm();
         stock.setVisible(true);
     }//GEN-LAST:event_btn_insertStockActionPerformed
 
