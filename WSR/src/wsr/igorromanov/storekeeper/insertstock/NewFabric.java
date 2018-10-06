@@ -5,20 +5,128 @@
  */
 package wsr.igorromanov.storekeeper.insertstock;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import wsr.igorromanov.utils.CheckValidate;
+import wsr.igorromanov.utils.ConnectionMySQL;
+import wsr.igorromanov.utils.FileUtils;
+import wsr.igorromanov.utils.FilterFile;
+
 /**
  *
  * @author Студент
  */
 public class NewFabric extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewFabric
-     */
+    private static final String FILE_EXTENSION_JPG = "jpg";
+    private static final String FILE_EXTENSION_PNG = "png";
+    private static final String DESCRIPTION = "Использовать формат";
+    private final FilterFile filterJPG = new FilterFile(FILE_EXTENSION_JPG, DESCRIPTION);
+    private final FilterFile filterPNG = new FilterFile(FILE_EXTENSION_PNG, DESCRIPTION);
+    private String path;
+  
     public NewFabric() {
+        super("Новая ткань");
         initComponents();
+        settings();
+    }
+    
+    private void settings(){
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
+    }
+    
+    private void checkInputDate(){
+        String name = txt_nameFabric.getText();
+        String color = txt_colorFabric.getText();
+        String consist = txt_consistFabric.getText();
+        String length = txt_lengthFabric.getText();
+        String width = txt_widthFabric.getText();
+        String vendor = txt_vendorCodeFabric.getText();
+        String roll = txt_roll.getText();
+        String cost = txt_costFabric.getText();
+       
+        if (CheckValidate.isString(name) && CheckValidate.isString(color) && CheckValidate.isString(consist)) {
+           
+            if (CheckValidate.isFloat(length) && CheckValidate.isFloat(width) && CheckValidate.isString(vendor)) {
+                
+                if (CheckValidate.isInteger(roll) && CheckValidate.isFloat(cost) && CheckValidate.isString(path)) {
+
+                    insertNewFabric(name, color, consist, Float.parseFloat(length), Float.parseFloat(width),
+                            vendor, Integer.parseInt(roll), Float.parseFloat(cost), path);
+                     
+                }else{
+                    JOptionPane.showMessageDialog(null, "<html><h3>Неверный формат(Проверьте поля)");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "<html><h3>Неверный формат(Проверьте поля)");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "<html><h3>Неверный формат(Проверьте поля)");
+        } 
+
+    }
+ 
+    private void insertNewFabric(String name, String color, String consist, float length, float width, String vendor, int roll, float cost, String image) {
+        Connection con = ConnectionMySQL.getConnection();
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO fabric (name,colour,consist,length,width,vendor_code_fabric,cost,image) values (?,?,?,?,?,?,?,?)";
+        InputStream img = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, color);
+            ps.setString(3, consist);
+            ps.setFloat(4, length);
+            ps.setFloat(5, width);
+            ps.setString(6, vendor);
+            ps.setFloat(7, cost);
+            
+            try {
+
+                img = new FileInputStream(new File(image));
+                ps.setBlob(8, img);
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Ткань добавлена");
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(NewFabric.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+
+                try {
+                    if (img != null) {
+                        img.close();
+                    }
+
+                } catch (IOException ex) {
+                    Logger.getLogger(NewFabric.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewFabric.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(NewFabric.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 
@@ -26,6 +134,7 @@ public class NewFabric extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fileChooser = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         lbl_newFabric = new javax.swing.JLabel();
         txt_nameFabric = new javax.swing.JTextField();
@@ -43,7 +152,10 @@ public class NewFabric extends javax.swing.JFrame {
         lbl_imageFabric = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txt_costFabric = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btn_selectImage = new javax.swing.JButton();
+        txt_roll = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        btn_insertFabric = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,99 +204,155 @@ public class NewFabric extends javax.swing.JFrame {
 
         txt_costFabric.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jButton1.setText("Выбрать изоброжение");
+        btn_selectImage.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        btn_selectImage.setText("Выбрать изоброжение");
+        btn_selectImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_selectImageActionPerformed(evt);
+            }
+        });
+
+        txt_roll.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel9.setText("Рулонов:");
+
+        btn_insertFabric.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        btn_insertFabric.setText("Добавить");
+        btn_insertFabric.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_insertFabricActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(106, 106, 106)
+                .addComponent(lbl_newFabric))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(lbl_newFabric)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txt_costFabric))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txt_nameFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(10, 10, 10)
+                                .addComponent(txt_nameFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(jLabel2)
+                                .addGap(10, 10, 10)
+                                .addComponent(txt_colorFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(jLabel3)
+                                .addGap(10, 10, 10)
+                                .addComponent(txt_consistFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addComponent(jLabel4)
+                                .addGap(10, 10, 10)
+                                .addComponent(txt_lengthFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(13, 13, 13)
+                                .addComponent(jLabel5)
+                                .addGap(10, 10, 10)
+                                .addComponent(txt_widthFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel6)
+                                .addGap(10, 10, 10)
+                                .addComponent(txt_vendorCodeFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(19, 19, 19))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(36, 36, 36)
+                                    .addComponent(jLabel8)
+                                    .addGap(10, 10, 10)
+                                    .addComponent(txt_costFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btn_selectImage, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txt_colorFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txt_consistFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txt_lengthFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txt_widthFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txt_vendorCodeFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(29, 29, 29)
+                                .addComponent(jLabel9)
+                                .addGap(10, 10, 10)
+                                .addComponent(txt_roll, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lbl_imageFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btn_insertFabric, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(11, 11, 11)
                 .addComponent(lbl_newFabric)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_nameFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel1))
+                            .addComponent(txt_nameFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel2))
+                            .addComponent(txt_colorFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel3))
+                            .addComponent(txt_consistFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel4))
+                            .addComponent(txt_lengthFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel5))
+                            .addComponent(txt_widthFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel6))
+                            .addComponent(txt_vendorCodeFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_colorFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_consistFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_lengthFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_widthFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_vendorCodeFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_costFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lbl_imageFabric, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel9))
+                            .addComponent(txt_roll, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel8))
+                            .addComponent(txt_costFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(lbl_imageFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_selectImage, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_insertFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -201,6 +369,30 @@ public class NewFabric extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_selectImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_selectImageActionPerformed
+        
+       FileUtils.addFileFilter(fileChooser, filterJPG);
+       FileUtils.addFileFilter(fileChooser, filterPNG);
+
+        int result = fileChooser.showOpenDialog(this);
+        
+        if (result == JFileChooser.APPROVE_OPTION) {
+            
+            File selectedFile = fileChooser.getSelectedFile();
+            
+            path = selectedFile.getAbsolutePath();
+            
+            ImageIcon image = new ImageIcon(path);
+            lbl_imageFabric.setIcon(new ImageIcon(image.getImage().getScaledInstance(175, 277, Image.SCALE_SMOOTH)));
+        }
+       
+        
+    }//GEN-LAST:event_btn_selectImageActionPerformed
+
+    private void btn_insertFabricActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_insertFabricActionPerformed
+       checkInputDate();
+    }//GEN-LAST:event_btn_insertFabricActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -212,7 +404,7 @@ public class NewFabric extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -229,15 +421,15 @@ public class NewFabric extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new NewFabric().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new NewFabric().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_insertFabric;
+    private javax.swing.JButton btn_selectImage;
+    private javax.swing.JFileChooser fileChooser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -245,6 +437,7 @@ public class NewFabric extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbl_imageFabric;
     private javax.swing.JLabel lbl_newFabric;
@@ -253,6 +446,7 @@ public class NewFabric extends javax.swing.JFrame {
     private javax.swing.JTextField txt_costFabric;
     private javax.swing.JTextField txt_lengthFabric;
     private javax.swing.JTextField txt_nameFabric;
+    private javax.swing.JTextField txt_roll;
     private javax.swing.JTextField txt_vendorCodeFabric;
     private javax.swing.JTextField txt_widthFabric;
     // End of variables declaration//GEN-END:variables

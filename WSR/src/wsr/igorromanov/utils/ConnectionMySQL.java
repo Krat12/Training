@@ -12,7 +12,7 @@ public class ConnectionMySQL {
     public static Connection getConnection(){
         String url = "jdbc:mysql://localhost:3306/wsr";
         String user = "root";
-        String password = "1234";
+        String password = "18lulego123";
        
         if (con == null){ 
             try {

@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import wsr.igorromanov.storekeeper.FieldStorage;
 import wsr.igorromanov.storekeeper.Storage;
 import wsr.igorromanov.storekeeper.StoreKeeperForm;
+import wsr.igorromanov.utils.CheckValidate;
 
 /**
  *
@@ -39,8 +40,8 @@ public class CatalogeForm extends javax.swing.JFrame {
 
         cmb_Cataloge.addItem("Каталог");
         Storage list = new Storage();
-        ArrayList<FieldStorage> listFabric = list.getFabricList();
-        ArrayList<FieldStorage> listFittings = list.getFittingsList();
+        ArrayList<FieldStorage> listFabric = list.StorageFabric();
+        ArrayList<FieldStorage> listFittings = list.StorageFittings();
         if (cb_listFabric.isSelected()) {
 
             for (int i = 0; i < listFabric.size(); i++) {
@@ -84,7 +85,7 @@ public class CatalogeForm extends javax.swing.JFrame {
     }
     //Перерасчет количество рулонов на складе
     private void outputDataFabric(int roll, int ID) {
-        if (isDigit(amount)) {
+        if (CheckValidate.isInteger(amount)) {
             int recalculation = Integer.parseInt(amount) + roll;
             QueryStock.updateRoll(recalculation,ID);
         } 
@@ -105,24 +106,18 @@ public class CatalogeForm extends javax.swing.JFrame {
     }
   // Перерасчет количетсво партий на складе
     private void outputDataFittings(int party, int ID) {
-        if (isDigit(amount)) {
+        if (CheckValidate.isInteger(amount)) {
+            
             int recalculation = Integer.parseInt(amount) + party;
-           QueryStock.updateParty(recalculation,ID);
-        } 
-    }
-
-    // Проверка правильности ввода данных пользователем 
-    private boolean isDigit(String data) throws NumberFormatException {
-        try {
-            Integer.parseInt(data);
-            return true;
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(CatalogeForm.this,
-                                       "<html><h3>Неверный формат");
-            return false;
+            
+            QueryStock.updateParty(recalculation,ID);
+           
+        }else{
+            
+            JOptionPane.showMessageDialog(CatalogeForm.this,"<html><h3>Неверный формат");
         }
-
     }
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -136,6 +131,7 @@ public class CatalogeForm extends javax.swing.JFrame {
         btn_backmenu = new javax.swing.JButton();
         btn_newFabric = new javax.swing.JLabel();
         btn_newFittings = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -212,6 +208,14 @@ public class CatalogeForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8_Refresh_20px.png"))); // NOI18N
+        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -219,22 +223,26 @@ public class CatalogeForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(cmb_Cataloge, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btn_newFabric, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cb_listFittings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cb_listFabric)
                     .addComponent(btn_backmenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_newFittings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                    .addComponent(btn_newFittings))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmb_Cataloge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cb_listFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cmb_Cataloge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cb_listFabric, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cb_listFittings)
                 .addGap(12, 12, 12)
@@ -307,6 +315,11 @@ public class CatalogeForm extends javax.swing.JFrame {
          btn_newFittings.setForeground(Color.BLACK);
     }//GEN-LAST:event_btn_newFittingsMouseExited
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        cmb_Cataloge.removeAllItems();
+        Cataloge();
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -318,7 +331,7 @@ public class CatalogeForm extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -350,6 +363,7 @@ public class CatalogeForm extends javax.swing.JFrame {
     private javax.swing.JCheckBox cb_listFabric;
     private javax.swing.JCheckBox cb_listFittings;
     private javax.swing.JComboBox<String> cmb_Cataloge;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables

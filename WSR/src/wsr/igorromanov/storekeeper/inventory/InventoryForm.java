@@ -12,6 +12,9 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import wsr.igorromanov.utils.FileUtils;
+import wsr.igorromanov.utils.FilterFile;
+
 
 
 /**
@@ -20,9 +23,11 @@ import javax.swing.JOptionPane;
  */
 public class InventoryForm extends javax.swing.JFrame {
 
-  private static final String FILE_EXTENSION = ".xml";
+  private static final String FILE_EXTENSION = "xml";
+  private static final String FILE_DISCRIPTION = "Cохранить в файл";
   private static final String[] COLUMN_NAME_FABRIC = {"Название","Цвет","Состав","Длина(м.)","Рулон(ов)","Изоброжение"};
   private static final String[] COLUMN_NAME_FITTINGS = {"Название","Тип","Вес(кг.)","Количество(шт.)","Партий(шт.)","Изоброжение"};
+  private FilterFile filterXML = new FilterFile(FILE_EXTENSION, FILE_DISCRIPTION);
   public static int PanelID;
   private static final int DEFAULT_PANEL = 0;
   private static final int FABRIC_PANEL = 1;
@@ -55,23 +60,34 @@ public class InventoryForm extends javax.swing.JFrame {
           storage.createTable(tb_StorageFittings, COLUMN_NAME_FITTINGS, storage.getFittingsList());
     }
     
-    private void menuSave(){
-      Storage storage = new Storage();
+    private void menuSave() {
+        FileUtils.addFileFilter(fileChooser, filterXML);
+        Storage storage = new Storage();
         if (PanelID != DEFAULT_PANEL) {
+            
             int result = fileChooser.showSaveDialog(this);
+            
             if (result == JFileChooser.APPROVE_OPTION) {// если нажата клавиша OK или YES
+                
                 File selectedFile = fileChooser.getSelectedFile();
-                String URL = selectedFile.getPath() + FILE_EXTENSION;
-            if(PanelID == FABRIC_PANEL){
-                FileXML.fabricModel(storage.getFabricList(),URL);
-            }
-             if(PanelID == FITTINGS_PANEL){
-                 FileXML.fittingsModel(storage.getFittingsList(),URL);
+                
+                String fileExtension = FileUtils.getFileExtension(selectedFile);
+                
+                String URL = (fileExtension != null && fileExtension.equals(FILE_EXTENSION)) ? selectedFile.getPath() : selectedFile.getPath() + "." + FILE_EXTENSION;
+                
+                if (PanelID == FABRIC_PANEL) {
+                    
+                    FileXML.fabricModel(storage.getFabricList(), URL);
+                }
+                if (PanelID == FITTINGS_PANEL) {
+                    
+                    FileXML.fittingsModel(storage.getFittingsList(), URL);
+                }
 
             }
-                
-            }
-        }else {JOptionPane.showMessageDialog(null,"<html><h3>Выберите таблицу");}
+        } else {
+            JOptionPane.showMessageDialog(null, "<html><h3>Выберите таблицу");
+        }
     }
     
     private void mainMenu(){

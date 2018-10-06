@@ -22,7 +22,7 @@ private final ArrayList<FieldStorage> listStorageFabric = new ArrayList<FieldSto
 private final ArrayList<FieldStorage> listStorageFittings = new ArrayList<FieldStorage>();
 private Object[][] rows;
     
-    private ArrayList<FieldStorage> StorageFabric()  {
+    public ArrayList<FieldStorage> StorageFabric()  {
 
         Connection con = ConnectionMySQL.getConnection();
         Statement st = null;
@@ -65,7 +65,7 @@ private Object[][] rows;
     }
 
     
-private ArrayList<FieldStorage>StorageFittings(){
+public ArrayList<FieldStorage>StorageFittings(){
     Connection con = ConnectionMySQL.getConnection();
         Statement st = null;
         ResultSet rs = null;
@@ -125,17 +125,25 @@ public ArrayList<FieldStorage> getFittingsList(){
 }
 
     public  void createTable(JTable table,String[] columnName,ArrayList<FieldStorage> listField) {
+        
         rows = new Object[listField.size()][];
+        
         for (int i = 0; i < rows.length; i++) {
+            
             if (table.getName().equals("Fabric")) {
+                
                 rows[i] = (Object[]) listField.get(i).getRowFabric();
             }
+            
             if (table.getName().equals("Fittings")) {
+                
                 rows[i] = listField.get(i).getRowFittings();
             }
         }
         TheModel model = new TheModel(rows, columnName);
+        
         table.setModel(model);
+        
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.setDefaultRenderer(Integer.class, centerRenderer);

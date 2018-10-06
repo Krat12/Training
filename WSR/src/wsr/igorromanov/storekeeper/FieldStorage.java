@@ -25,7 +25,7 @@ public class FieldStorage {
     private float lengthFittings;
     private float costFittings;
     private float widthFittings;
-
+    
     
     public FieldStorage() {
     }
@@ -42,8 +42,9 @@ public class FieldStorage {
         this.costFittings = costFittings;
         this.widthFittings = widthFittings;
     }
-    
 
+
+    
    
 
     public FieldStorage(String name, String vendor_cod, String colour, String consist, int roll, String width, int length, float cost, byte[] image, int ID) {
@@ -157,6 +158,7 @@ public class FieldStorage {
     public int getFabricID() {
         return fabricID;
     }
+
     
     
     
