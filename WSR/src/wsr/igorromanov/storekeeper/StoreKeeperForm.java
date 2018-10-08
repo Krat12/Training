@@ -8,6 +8,7 @@ package wsr.igorromanov.storekeeper;
 import wsr.igorromanov.storekeeper.insertstock.CatalogeForm;
 import wsr.igorromanov.storekeeper.inventory.InventoryForm;
 import static wsr.igorromanov.storekeeper.inventory.InventoryForm.PanelID;
+import wsr.igorromanov.storekeeper.listFabric.ListFabric;
 
 /**
  *
@@ -139,12 +140,12 @@ public class StoreKeeperForm extends javax.swing.JFrame {
         PanelID = 0;
         InventoryForm inventory = new InventoryForm();
         inventory.setVisible(true);
-        
-   
     }//GEN-LAST:event_btn_inventarActionPerformed
 
     private void btn_fabricActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fabricActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        ListFabric form = new ListFabric();
+        form.setVisible(true);
     }//GEN-LAST:event_btn_fabricActionPerformed
 
     private void btn_fittingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fittingsActionPerformed

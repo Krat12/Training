@@ -185,9 +185,6 @@ public class RegistrationForm extends javax.swing.JFrame {
         String.valueOf(txt_passwordR.getPassword()),
         cb_rol.getSelectedItem().toString()));
         query.insertDB();
-//      this.dispose();
-//      WindowInput window = new WindowInput();
-//      window.setVisible(true);
     }//GEN-LAST:event_lb_registrationMouseClicked
 
     private void lb_registrationMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_registrationMouseMoved

@@ -33,6 +33,7 @@ public class FileXML {
              DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
              DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
              document = documentBuilder.newDocument();
+             
          } catch (ParserConfigurationException ex) {
              Logger.getLogger(FileXML.class.getName()).log(Level.SEVERE, null, ex);
          }
@@ -68,11 +69,11 @@ public class FileXML {
                  fabric.appendChild(colour);
                  
                  Element width = document.createElement("Width");
-                 width.appendChild(document.createTextNode(list.get(i).getWidth()));
+                 width.appendChild(document.createTextNode(String.valueOf(list.get(i).getWidthFabric())));
                  fabric.appendChild(width);
                  
                  Element length = document.createElement("Length");
-                 length.appendChild(document.createTextNode(String.valueOf(list.get(i).getLength())));
+                 length.appendChild(document.createTextNode(String.valueOf(list.get(i).getLengthFabric())));
                  fabric.appendChild(length);
              }
              writeDocument(document, URL);
@@ -89,7 +90,7 @@ public class FileXML {
          try {
              // Получаем документ для модели
              Document document = createXML();
-             System.out.println(document);
+             
              //Создаем структуру XML
              Element cataloge = document.createElement("Cataloge");
              document.appendChild(cataloge);

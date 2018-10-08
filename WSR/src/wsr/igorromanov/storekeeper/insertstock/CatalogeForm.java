@@ -57,7 +57,7 @@ public class CatalogeForm extends javax.swing.JFrame {
         }
     }
 
-    // Локальный main метод (происходит все расчеты и добовляются данные в бд)
+    // происходит все расчеты и добовляются данные в бд
     private void Calculation() {
         if (!cmb_Cataloge.getSelectedItem().equals("Каталог")) {
             amount = JOptionPane.showInputDialog(CatalogeForm.this,
@@ -71,28 +71,31 @@ public class CatalogeForm extends javax.swing.JFrame {
 
     }
     // Поиск нужного рулона и его ID
-    private void searchFabric (){
+    private void searchFabric() {
         Storage storage = new Storage();
         ArrayList<FieldStorage> listFabric = storage.getFabricList();
         for (FieldStorage field : listFabric) {
             if (field.getNameFabric().equals(cmb_Cataloge.getSelectedItem())) {
                 int roll = field.getRoll();
                 int ID = field.getFabricID();
-                outputDataFabric(roll, ID);
+                float length = field.getLengthFabric();
+                System.out.println(length);
+                outputDataFabric(roll, ID, length);
             }
         }
-    
+
     }
+
     //Перерасчет количество рулонов на складе
-    private void outputDataFabric(int roll, int ID) {
+    private void outputDataFabric(int roll, int ID, float length) {
         if (CheckValidate.isInteger(amount)) {
             int recalculation = Integer.parseInt(amount) + roll;
-            QueryStock.updateRoll(recalculation,ID);
-        } 
+            QueryStock.updateRoll(recalculation, ID, length);
+        }
     }
     
     // Поиск нужной партии и его ID
-        private void searchFittings(){
+    private void searchFittings() {
         Storage storage = new Storage();
         ArrayList<FieldStorage> listFittings = storage.getFittingsList();
         for (FieldStorage field : listFittings) {
@@ -102,19 +105,20 @@ public class CatalogeForm extends javax.swing.JFrame {
                 outputDataFittings(party, ID);
             }
         }
-    
+
     }
-  // Перерасчет количетсво партий на складе
+    // Перерасчет количетсво партий на складе
+
     private void outputDataFittings(int party, int ID) {
         if (CheckValidate.isInteger(amount)) {
-            
+
             int recalculation = Integer.parseInt(amount) + party;
-            
-            QueryStock.updateParty(recalculation,ID);
-           
-        }else{
-            
-            JOptionPane.showMessageDialog(CatalogeForm.this,"<html><h3>Неверный формат");
+
+            QueryStock.updateParty(recalculation, ID);
+
+        } else {
+
+            JOptionPane.showMessageDialog(CatalogeForm.this, "<html><h3>Неверный формат");
         }
     }
 

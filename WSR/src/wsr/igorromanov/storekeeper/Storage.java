@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import wsr.igorromanov.storekeeper.listFabric.TableModelLis;
 import wsr.igorromanov.utils.ConnectionMySQL;
 
 
@@ -27,7 +28,7 @@ private Object[][] rows;
         Connection con = ConnectionMySQL.getConnection();
         Statement st = null;
         ResultSet rs;
-        String sql = "SELECT name,vendor_code_fabric,roll,colour,consist,width,s.length,cost,image,storage_fabric_id \n"
+        String sql = "SELECT name,vendor_code_fabric,roll,colour,consist,f.width,f.length,cost,image,f.vendor_code_fb_id \n"
                 + "FROM fabric f\n"
                 + "LEFT JOIN storage_fabric s \n"
                 + "ON f.vendor_code_fb_id = s.vendor_code_fb_fk";
@@ -42,11 +43,11 @@ private Object[][] rows;
                         rs.getString("colour"),
                         rs.getString("consist"),
                         rs.getInt("roll"),
-                        rs.getString("width"),
-                        rs.getInt("length"),
+                        rs.getFloat("width"),
+                        rs.getFloat("length"),
                         rs.getInt("cost"),
                         rs.getBytes("image"),
-                        rs.getInt("storage_fabric_id"));
+                        rs.getInt("vendor_code_fb_id"));
                 listStorageFabric.add(field);
             }
         } catch (SQLException ex) {
@@ -139,10 +140,34 @@ public ArrayList<FieldStorage> getFittingsList(){
                 
                 rows[i] = listField.get(i).getRowFittings();
             }
+          
+            if(table.getName().equals("FabricList")){
+                
+                rows[i] = listField.get(i).getRowFabricList();
+                
+            }
         }
-        TheModel model = new TheModel(rows, columnName);
         
-        table.setModel(model);
+        checkModelTable(table, columnName);
+        
+        settingsTable(table);    
+     }
+    
+    private void checkModelTable(JTable table, String[] columnName){
+        if (table.getName().equals("Fabric") || table.getName().equals("Fittings")) {
+            TheModel model = new TheModel(rows, columnName);
+            table.setModel(model);
+        }
+        
+        if (table.getName().equals("FabricList")) {
+
+            TheModel modelList = new TableModelLis(rows, columnName);
+            table.setModel(modelList);
+        }
+    }
+    
+    
+    private void settingsTable(JTable table) {
         
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -152,7 +177,6 @@ public ArrayList<FieldStorage> getFittingsList(){
         renderer.setHorizontalAlignment(0);
         JTableHeader header = table.getTableHeader();
         header.setFont(new Font("Tahoma", Font.BOLD, 16));
-        
-     }
+    }
 
 }
