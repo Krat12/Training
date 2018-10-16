@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import wsr.igorromanov.storekeeper.deletestock.ModelTableRemove;
 import wsr.igorromanov.storekeeper.listFabric.TableModelLis;
 import wsr.igorromanov.utils.ConnectionMySQL;
 
@@ -144,6 +145,12 @@ public ArrayList<FieldStorage> getFittingsList(){
                 rows[i] = listField.get(i).getRowFabricList();
                 
             }
+            
+            if (table.getName().equals("RemoveFabric")) {
+
+                rows[i] = listField.get(i).getRowFabricRemove();
+
+            }
         }
         
         checkModelTable(table, columnName);
@@ -160,6 +167,12 @@ public ArrayList<FieldStorage> getFittingsList(){
         if (table.getName().equals("FabricList")) {
 
             TheModel modelList = new TableModelLis(rows, columnName);
+            table.setModel(modelList);
+        }
+        
+        if (table.getName().equals("RemoveFabric")) {
+
+            TheModel modelList = new ModelTableRemove(rows, columnName);
             table.setModel(modelList);
         }
         

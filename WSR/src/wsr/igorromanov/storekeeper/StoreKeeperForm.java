@@ -5,6 +5,7 @@
  */
 package wsr.igorromanov.storekeeper;
 
+import wsr.igorromanov.storekeeper.deletestock.RemoveMaterialFrom;
 import wsr.igorromanov.storekeeper.insertstock.CatalogeForm;
 import wsr.igorromanov.storekeeper.inventory.InventoryForm;
 import static wsr.igorromanov.storekeeper.inventory.InventoryForm.PanelID;
@@ -159,7 +160,9 @@ public class StoreKeeperForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_insertStockActionPerformed
 
     private void btn_deleteStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteStockActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        RemoveMaterialFrom removeMaterialFrom = new RemoveMaterialFrom();
+        removeMaterialFrom.setVisible(true);
     }//GEN-LAST:event_btn_deleteStockActionPerformed
 
     /**

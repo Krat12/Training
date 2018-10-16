@@ -29,6 +29,15 @@ public class FieldStorage {
     public FieldStorage() {
     }
 
+    public FieldStorage(String nameFabric, String vendor_cod, float lengthFabric, byte[] imageFabric) {
+        this.nameFabric = nameFabric;
+        this.vendor_cod = vendor_cod;
+        this.lengthFabric = lengthFabric;
+        this.imageFabric = imageFabric;
+    }
+    
+    
+
     public FieldStorage(String type, float heft, int party, int amount, String nameFittings, byte[] imageFittings, int FittingsID, float lengthFittings, float costFittings, float widthFittings) {
         this.type = type;
         this.heft = heft;
@@ -60,6 +69,10 @@ public class FieldStorage {
     
     
 
+      public Object[] getRowFabricRemove(){
+      Object[] Row = {getVendor_cod(),getNameFabric(),getLengthFabric(),getImageFabric()};
+       return Row;
+    }
     public String getNameFabric() {
         return nameFabric;
     }
