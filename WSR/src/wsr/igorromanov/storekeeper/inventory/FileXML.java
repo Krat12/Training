@@ -116,9 +116,6 @@ public class FileXML {
                  amount.appendChild(document.createTextNode(String.valueOf(list.get(i).getAmount())));
                  fittings.appendChild(amount);
                  
-                 Element party = document.createElement("Party");
-                 party.appendChild(document.createTextNode(String.valueOf(list.get(i).getParty())));
-                 fittings.appendChild(party);
              }
              writeDocument(document, URL);
          } catch (TransformerFactoryConfigurationError ex) {

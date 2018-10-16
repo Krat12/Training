@@ -61,7 +61,6 @@ public class SelectQuery {
             StoreKeeperForm keeper = new StoreKeeperForm();
             keeper.setVisible(true);
         }
-       return;
     }
 
     private void manager() {
@@ -70,7 +69,6 @@ public class SelectQuery {
             ManagerForm manager = new ManagerForm();
             manager.setVisible(true);
         }
-        return;
     }
 
     private void customer() {
@@ -79,7 +77,6 @@ public class SelectQuery {
             CustomerForm customer = new CustomerForm();
             customer.setVisible(true);
         }
-        return;
     }
     
     private void director() {
@@ -88,15 +85,10 @@ public class SelectQuery {
             DirectorForm director = new DirectorForm();
             director.setVisible(true);
         }
-        return;
     }
 
     private boolean checkVoidField() {
-        if (field.getLogin().equals("") || field.getPassword().equals("")) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(field.getLogin().equals("") || field.getPassword().equals(""));
     }
 
 }

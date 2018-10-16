@@ -65,28 +65,29 @@ public class QueryStock {
 //        
 //    }
     
-    public static void updateRoll(int roll, int ID, float length){
-        PreparedStatement update = null;
+    public static void InsertFabricOnStorage(int amount, int ID, float length){
+        PreparedStatement insert = null;
         Connection con = ConnectionMySQL.getConnection();
-        String sql = "UPDATE storage_fabric set roll = ? \n"
-                + "WHERE vendor_code_fb_fk= ?";
+        String sql = "INSERT INTO storage_fabric (vendor_code_fb_fk,length) \n"
+                + "values (?,?)";
         
         try {
-            update = con.prepareStatement(sql);
-            update.setInt(1, roll);
-            update.setInt(2,ID);
-            update.executeUpdate();
-            if (update.executeUpdate() == QUERY_IS_EMPTY){
-                insertRoll(ID,roll,length);
+            
+            for (int i = 0; i < amount; i++) {
+                insert = con.prepareStatement(sql);
+                insert.setInt(1, ID);
+                insert.setFloat(2, length);
+                insert.executeUpdate();
             }
+
             JOptionPane.showMessageDialog(null,"Данные обновились");
             
         } catch (SQLException ex) {
             Logger.getLogger(QueryStock.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
-            if (update != null){
+            if (insert != null){
                 try {
-                    update.close();
+                    insert.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(QueryStock.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -95,30 +96,7 @@ public class QueryStock {
         
     }
     
-    private static void insertRoll(int ID, int roll, float length){
-        PreparedStatement insert = null;
-        Connection con = ConnectionMySQL.getConnection();
-        String sql = "INSERT INTO storage_fabric (vendor_code_fb_fk,roll,length) \n"
-                + "values (?,?,?)";
-     try {
-         insert = con.prepareStatement(sql);
-         insert.setInt(1, ID);
-         insert.setInt(2, roll);
-         insert.setFloat(3, length);
-         insert.executeUpdate();
-         JOptionPane.showMessageDialog(null, "Проверка");
-     } catch (SQLException ex) {
-         Logger.getLogger(QueryStock.class.getName()).log(Level.SEVERE, null, ex);
-     }finally{
-         try {
-             if (insert != null)
-                 insert.close();
-         } catch (SQLException e) {
-             Logger.getLogger(QueryStock.class.getName()).log(Level.SEVERE, null, e);
-         }
-     }
-        
-    }
+
     
        public static void updateParty(int party, int ID){
         PreparedStatement update = null;

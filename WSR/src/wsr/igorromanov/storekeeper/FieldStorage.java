@@ -9,7 +9,6 @@ public class FieldStorage {
     private  String vendor_cod;
     private  String colour;
     private  String consist;
-    private  int roll;
     private  float widthFabric;
     private  float lengthFabric;
     private  float costFabric;
@@ -47,12 +46,11 @@ public class FieldStorage {
     
    
 
-    public FieldStorage(String name, String vendor_cod, String colour, String consist, int roll, float width, float length, float cost, byte[] image, int ID) {
+    public FieldStorage(String name, String vendor_cod, String colour, String consist, float width, float length, float cost, byte[] image, int ID) {
         this.nameFabric = name;
         this.vendor_cod = vendor_cod;
         this.colour = colour;
         this.consist = consist;
-        this.roll = roll;
         this.widthFabric = width;
         this.lengthFabric = length;
         this.costFabric = cost;
@@ -78,9 +76,7 @@ public class FieldStorage {
         return consist;
     }
 
-    public int getRoll() {
-        return roll;
-    }
+
 
     public float getWidthFabric() {
         return widthFabric;
@@ -95,7 +91,7 @@ public class FieldStorage {
     }
     
     public Object[] getRowFabric(){
-      Object[] Row = {getNameFabric(),getColour(),getConsist(),getLengthFabric(),getRoll(),getImageFabric()};
+      Object[] Row = {getNameFabric(),getColour(),getConsist(),getLengthFabric(),getImageFabric()};
        return Row;
     }
     public Object[] getRowFabricList(){
@@ -104,7 +100,7 @@ public class FieldStorage {
     }
     
    public Object[] getRowFittings(){
-      Object[] Row = {getNameFittings(),getType(),getHeft(),getAmount(),getParty(),getImageFittings()};
+      Object[] Row = {getNameFittings(),getType(),getHeft(),getAmount(),getImageFittings()};
        return Row;
     }
     

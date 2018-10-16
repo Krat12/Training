@@ -38,7 +38,7 @@ public class TheModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if (columnIndex == 5){
+        if (columnIndex == 4){
             return Icon.class;
         }else {
             return getValueAt(0, columnIndex).getClass();

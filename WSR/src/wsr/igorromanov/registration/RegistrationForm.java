@@ -23,6 +23,9 @@ public class RegistrationForm extends javax.swing.JFrame {
         settings();
         
     }
+    
+    
+    
     private void settings() {
         setLocationRelativeTo(null);
         setResizable(false);

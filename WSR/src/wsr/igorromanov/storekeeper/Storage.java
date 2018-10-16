@@ -28,21 +28,18 @@ private Object[][] rows;
         Connection con = ConnectionMySQL.getConnection();
         Statement st = null;
         ResultSet rs;
-        String sql = "SELECT name,vendor_code_fabric,roll,colour,consist,f.width,f.length,cost,image,f.vendor_code_fb_id \n"
-                + "FROM fabric f\n"
-                + "LEFT JOIN storage_fabric s \n"
-                + "ON f.vendor_code_fb_id = s.vendor_code_fb_fk";
-
+        String sql = "SELECT * FROM fabric ";
+                
         try {
             st = con.createStatement();
             rs = st.executeQuery(sql);
 
             while (rs.next()) {
+                
                 FieldStorage field = new FieldStorage(rs.getString("name"),
                         rs.getString("vendor_code_fabric"),
                         rs.getString("colour"),
                         rs.getString("consist"),
-                        rs.getInt("roll"),
                         rs.getFloat("width"),
                         rs.getFloat("length"),
                         rs.getInt("cost"),
@@ -96,6 +93,7 @@ public ArrayList<FieldStorage>StorageFittings(){
     } catch (SQLException ex) {
         Logger.getLogger(Storage.class.getName()).log(Level.SEVERE, null, ex);
     }finally{
+        
         if(st != null){
             try {
                 st.close();
@@ -164,6 +162,7 @@ public ArrayList<FieldStorage> getFittingsList(){
             TheModel modelList = new TableModelLis(rows, columnName);
             table.setModel(modelList);
         }
+        
     }
     
     

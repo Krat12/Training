@@ -49,6 +49,7 @@ public class CatalogeForm extends javax.swing.JFrame {
                 cmb_Cataloge.addItem(data);
             }
         }
+        
         if (cb_listFittings.isSelected()) {
             for (int i = 0; i < listFittings.size(); i++) {
                 String data = listFittings.get(i).getNameFittings();
@@ -57,7 +58,7 @@ public class CatalogeForm extends javax.swing.JFrame {
         }
     }
 
-    // происходит все расчеты и добовляются данные в бд
+   
     private void Calculation() {
         if (!cmb_Cataloge.getSelectedItem().equals("Каталог")) {
             amount = JOptionPane.showInputDialog(CatalogeForm.this,
@@ -70,31 +71,29 @@ public class CatalogeForm extends javax.swing.JFrame {
         }
 
     }
-    // Поиск нужного рулона и его ID
+    
     private void searchFabric() {
         Storage storage = new Storage();
         ArrayList<FieldStorage> listFabric = storage.getFabricList();
         for (FieldStorage field : listFabric) {
             if (field.getNameFabric().equals(cmb_Cataloge.getSelectedItem())) {
-                int roll = field.getRoll();
                 int ID = field.getFabricID();
                 float length = field.getLengthFabric();
                 System.out.println(length);
-                outputDataFabric(roll, ID, length);
+                outputDataFabric( ID, length);
             }
         }
 
     }
 
-    //Перерасчет количество рулонов на складе
-    private void outputDataFabric(int roll, int ID, float length) {
-        if (CheckValidate.isInteger(amount)) {
-            int recalculation = Integer.parseInt(amount) + roll;
-            QueryStock.updateRoll(recalculation, ID, length);
+   
+    private void outputDataFabric( int ID, float length) {
+        if (CheckValidate.isInteger(amount)) { 
+            QueryStock.InsertFabricOnStorage(Integer.parseInt(amount), ID, length);
         }
     }
     
-    // Поиск нужной партии и его ID
+   
     private void searchFittings() {
         Storage storage = new Storage();
         ArrayList<FieldStorage> listFittings = storage.getFittingsList();
@@ -107,7 +106,7 @@ public class CatalogeForm extends javax.swing.JFrame {
         }
 
     }
-    // Перерасчет количетсво партий на складе
+
 
     private void outputDataFittings(int party, int ID) {
         if (CheckValidate.isInteger(amount)) {

@@ -25,8 +25,8 @@ public class InventoryForm extends javax.swing.JFrame {
 
   private static final String FILE_EXTENSION = "xml";
   private static final String FILE_DISCRIPTION = "Cохранить в файл";
-  private static final String[] COLUMN_NAME_FABRIC = {"Название","Цвет","Состав","Длина(м.)","Рулон(ов)","Изоброжение"};
-  private static final String[] COLUMN_NAME_FITTINGS = {"Название","Тип","Вес(кг.)","Количество(шт.)","Партий(шт.)","Изоброжение"};
+  private static final String[] COLUMN_NAME_FABRIC = {"Название","Цвет","Состав","Длина(м.)","Изоброжение"};
+  private static final String[] COLUMN_NAME_FITTINGS = {"Название","Тип","Вес(кг.)","Количество(шт.)","Изоброжение"};
   private FilterFile filterXML = new FilterFile(FILE_EXTENSION, FILE_DISCRIPTION);
   public static int PanelID;
   private static final int DEFAULT_PANEL = 0;
