@@ -94,6 +94,11 @@ public class Authorization extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jButton1.setText("Cancel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btn_log.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_log.setText("Login");
@@ -170,6 +175,7 @@ public class Authorization extends javax.swing.JFrame {
         if (loginOrPasswordIsEmpty()) {
 
             service = new UserService();
+           
             user = service.getUserByEmail(txt_login.getText());
             System.out.println(user);
             if (user == null) {
@@ -190,6 +196,12 @@ public class Authorization extends javax.swing.JFrame {
         this.dispose();
         mainWindow.setVisible(true);
     }//GEN-LAST:event_btn_backActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      service = new UserService();
+      service.getAllUsers();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

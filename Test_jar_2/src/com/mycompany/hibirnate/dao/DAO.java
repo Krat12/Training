@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Admin
  */
-public interface DAO <Entity,Key> {
+public interface DAO <Entity,Key > {
     
     boolean insert(Entity model);
 
@@ -19,7 +19,7 @@ public interface DAO <Entity,Key> {
 
     boolean delete(Entity model);
 
-    Entity getObjectByID(Key key);
+    Entity getObjectByID(Key key,Class entity);
 
     List<Entity> getAllObject();
 }

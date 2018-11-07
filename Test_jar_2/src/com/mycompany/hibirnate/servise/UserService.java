@@ -1,39 +1,34 @@
 package com.mycompany.hibirnate.servise;
 
-
-import com.mycompany.hibirnate.dao.DAO;
 import com.mycompany.hibirnate.dao.MySQLDatabaseUser;
 import com.mycompany.hibirnate.model.User;
 import java.util.List;
 
 public class UserService {
-    
-  private DAO<User,String> userDAO;
-  
-
+   
+            
     public UserService() {
-        
+
     }
-    
-    public String getUserRole(User user){
+
+    public String getUserRole(User user) {
         String role = user.getRole().getRoleId();
-       return role;
+        return role;
     }
 
     public void saveUser(User user) {
-        userDAO = new MySQLDatabaseUser();
+        new MySQLDatabaseUser().insert(user);
         System.out.println(user);
-        userDAO.insert(user);    
     }
-    
-    public User getUserByEmail(String email){    
-        userDAO = new MySQLDatabaseUser();
-        return userDAO.getObjectByID(email);
+
+    public User getUserByEmail(String email) {  
+        return  (User) new MySQLDatabaseUser().getObjectByID(email,User.class);
     }
-    
-    public List<User> getAllUsers(){
-        userDAO = new MySQLDatabaseUser();
-        return userDAO.getAllObject();
+
+    public List<User> getAllUsers() {
+        List<User> users = new MySQLDatabaseUser().getAllObject();
+        System.out.println(users);
+        return users;
     }
 
 }
