@@ -5,6 +5,9 @@
  */
 package com.mycompany.hibirnate.gui;
 
+import com.mycompany.hibirnate.model.Role;
+import com.mycompany.hibirnate.model.User;
+import com.mycompany.hibirnate.servise.UserService;
 import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
@@ -17,9 +20,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Registration extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Registration
-     */
+    private UserService service;
+    
     public Registration() {
         super("Регистрация");
         initComponents();
@@ -239,6 +241,17 @@ public class Registration extends javax.swing.JFrame {
 
     private void btn_confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_confirmActionPerformed
        if (isEmptyField()){
+           User user = new User();
+           user.setEmail(txt_loginR.getText());
+           user.setFirstName(txt_name.getText());
+           user.setLastName(txt_surname.getText());
+           user.setPassword(String.valueOf(txt_passwordR.getPassword()));
+           user.setPhone(txt_phone.getText());
+           Role role = new Role();
+           role.setRoleId("U");
+           user.setRole(role);
+           service = new UserService();
+           service.saveUser(user);
            
        }
     }//GEN-LAST:event_btn_confirmActionPerformed
