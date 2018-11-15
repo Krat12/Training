@@ -181,7 +181,7 @@ public class Authorization extends javax.swing.JFrame {
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Поля не должны быть пустыми");
+            JOptionPane.showMessageDialog(null, " Поля не должны быть пустыми ");
         }
     }//GEN-LAST:event_btn_logActionPerformed
 

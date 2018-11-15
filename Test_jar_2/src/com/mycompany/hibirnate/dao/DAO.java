@@ -22,4 +22,6 @@ public interface DAO <Entity,Key > {
     Entity getObjectByID(Key key,Class entity);
 
     List<Entity> getAllObject();
+    
+   // Entity getObjectByName(); 
 }

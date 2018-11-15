@@ -5,9 +5,12 @@
  */
 package com.mycompany.hibirnate.gui.user;
 
+import com.mycompany.hibirnate.dao.DAO;
 import com.mycompany.hibirnate.gui.Authorization;
 import com.mycompany.hibirnate.gui.MainWindow;
 import com.mycompany.hibirnate.model.City;
+import com.mycompany.hibirnate.model.Entry;
+import com.mycompany.hibirnate.model.Realtor;
 import com.mycompany.hibirnate.model.Realty;
 import com.mycompany.hibirnate.model.Region;
 import com.mycompany.hibirnate.servise.UserService;
@@ -33,7 +36,7 @@ public class RealtySell extends javax.swing.JFrame {
     private static final String EMAIL = Authorization.user.getEmail();
     private Realty realty;
     private UserService service;
-
+    private DAO dao;
     public RealtySell() {
         initComponents();
         setLocationRelativeTo(null);
@@ -55,6 +58,9 @@ public class RealtySell extends javax.swing.JFrame {
         }
         if (cmb_region.getSelectedItem().equals("Регион") || cmb_city.getSelectedItem().equals("Город")) {
             JOptionPane.showMessageDialog(null, "Выберите город и регион");
+            return false;
+        }
+        if(txt_info.getText().equals("")|| lbl_img.getIcon().equals(null)){
             return false;
         }
         return true;
@@ -130,7 +136,7 @@ public class RealtySell extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cmb_realty = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -180,7 +186,7 @@ public class RealtySell extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("Подача объявления на продажу недвижимости");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel2.setText("Описание объявления");
@@ -246,14 +252,14 @@ public class RealtySell extends javax.swing.JFrame {
         jLabel9.setText("Контактная информация");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(63, 115, -1, -1));
 
-        jComboBox3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Квартира", "Дом", "Земельный участок" }));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        cmb_realty.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        cmb_realty.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Квартира", "Дом", "Земельный участок" }));
+        cmb_realty.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                cmb_realtyActionPerformed(evt);
             }
         });
-        jPanel1.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 160, 186, 36));
+        jPanel1.add(cmb_realty, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 160, 186, 36));
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel11.setText("Параметры");
@@ -466,7 +472,7 @@ public class RealtySell extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_logoutActionPerformed
 
     private void lbl_oneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_oneMouseClicked
-        if (jComboBox3.getSelectedItem().equals("Квартира")) {
+        if (cmb_realty.getSelectedItem().equals("Квартира")) {
             panel_one.setBackground(new Color(0, 191, 255));
             panel_too.setBackground(new Color(255, 255, 255));
             panel_tree.setBackground(new Color(255, 255, 255));
@@ -477,7 +483,7 @@ public class RealtySell extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_oneMouseClicked
 
     private void lbl_one1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_one1MouseClicked
-        if (jComboBox3.getSelectedItem().equals("Квартира")) {
+        if (cmb_realty.getSelectedItem().equals("Квартира")) {
             panel_too.setBackground(new Color(0, 191, 255));
             panel_tree.setBackground(new Color(255, 255, 255));
             panel_foo.setBackground(new Color(255, 255, 255));
@@ -487,7 +493,7 @@ public class RealtySell extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_one1MouseClicked
 
     private void lbl_one2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_one2MouseClicked
-        if (jComboBox3.getSelectedItem().equals("Квартира")) {
+        if (cmb_realty.getSelectedItem().equals("Квартира")) {
             panel_tree.setBackground(new Color(0, 191, 255));
             panel_one.setBackground(new Color(255, 255, 255));
             panel_too.setBackground(new Color(255, 255, 255));
@@ -497,7 +503,7 @@ public class RealtySell extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_one2MouseClicked
 
     private void lbl_one3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_one3MouseClicked
-        if (jComboBox3.getSelectedItem().equals("Квартира")) {
+        if (cmb_realty.getSelectedItem().equals("Квартира")) {
             panel_foo.setBackground(new Color(0, 191, 255));
             panel_too.setBackground(new Color(255, 255, 255));
             panel_one.setBackground(new Color(255, 255, 255));
@@ -506,19 +512,22 @@ public class RealtySell extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lbl_one3MouseClicked
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        if (jComboBox3.getSelectedItem().equals("Дом")) {
+    private void cmb_realtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_realtyActionPerformed
+        if (cmb_realty.getSelectedItem().equals("Дом")) {
             setEnableFalse();
             room = 0;
             panel_foo.setBackground(new Color(255, 255, 255));
             panel_too.setBackground(new Color(255, 255, 255));
             panel_one.setBackground(new Color(255, 255, 255));
             panel_tree.setBackground(new Color(255, 255, 255));
+            txt_floor.setEditable(true);
+            
         }
-        if (jComboBox3.getSelectedItem().equals("Квартира")) {
+        if (cmb_realty.getSelectedItem().equals("Квартира")) {
             setEnableTrue();
+            txt_floor.setEditable(true);  
         }
-        if (jComboBox3.getSelectedItem().equals("Земельный участок")) {
+        if (cmb_realty.getSelectedItem().equals("Земельный участок")) {
             setEnableFalse();
             room = 0;
             panel_foo.setBackground(new Color(255, 255, 255));
@@ -529,7 +538,7 @@ public class RealtySell extends javax.swing.JFrame {
         }
 
 
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+    }//GEN-LAST:event_cmb_realtyActionPerformed
 
     private void lbl_selectimageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lbl_selectimageActionPerformed
         JFileChooser file = new JFileChooser();
@@ -551,20 +560,41 @@ public class RealtySell extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_selectimageActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (jComboBox3.getSelectedItem().equals("Дом")) {
+        if (cmb_realty.getSelectedItem().equals("Дом")) {
             realty = new Realty();
             realty.setArea(Float.valueOf(txt_area.getText()));
             realty.setCost(Long.valueOf(txt_cost.getText()));
             realty.setNumberFloors(Integer.valueOf(txt_floor.getText()));
-            realty.setTypeRealty(String.valueOf(jComboBox3.getSelectedItem()));
+            realty.setTypeRealty(String.valueOf(cmb_realty.getSelectedItem()));
             realty.setInfo(txt_info.getText());
-            City city = new City();
+            City city = service.getCityByName(String.valueOf(cmb_city.getSelectedItem()));
+            realty.setCity(city);
+            service = new UserService();
+            service.saveRealty(realty);
+            Entry entry = new Entry();
+            System.out.println(Authorization.user);
+            entry.setUser(Authorization.user);
+            entry.setRealty(realty);
+            entry.setAdress(txt_adres.getText());
+            entry.setFullname(txt_fullname.getText());
+            entry.setPhone(txt_phone.getText());
+            entry.setStatusEntry("На обработки");
+            entry.setTypeEntry("Продажа");
+            Realtor realtor = new Realtor();
+            entry.setRealtor(realtor);
+            //icon.getIconHeight(),BufferedImage.TYPE_INT_RGB);
+            //realty.setImage(lbl_img.get);
+            service = new UserService();
+            service.saveEntry(entry);
+            
+            
+            
            
         }
-        if (jComboBox3.getSelectedItem().equals("Квартира")) {
+        if (cmb_realty.getSelectedItem().equals("Квартира")) {
 
         }
-        if (jComboBox3.getSelectedItem().equals("Земельный участок")) {
+        if (cmb_realty.getSelectedItem().equals("Земельный участок")) {
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -616,10 +646,10 @@ public class RealtySell extends javax.swing.JFrame {
     private javax.swing.JButton btn_back1;
     private javax.swing.JButton btn_logout;
     private javax.swing.JComboBox<String> cmb_city;
+    private javax.swing.JComboBox<String> cmb_realty;
     private javax.swing.JComboBox<String> cmb_region;
     private javax.swing.JLabel email;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

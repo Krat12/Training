@@ -1,8 +1,14 @@
 package com.mycompany.hibirnate.servise;
 
+import com.mycompany.hibirnate.dao.AbstractObjectDao;
+import com.mycompany.hibirnate.dao.CityImpl;
+import com.mycompany.hibirnate.dao.EntryImpl;
 import com.mycompany.hibirnate.dao.MySQLDatabaseUser;
 import com.mycompany.hibirnate.dao.RegionImpl;
 import com.mycompany.hibirnate.dao.RoleImpl;
+import com.mycompany.hibirnate.model.City;
+import com.mycompany.hibirnate.model.Entry;
+import com.mycompany.hibirnate.model.Realty;
 import com.mycompany.hibirnate.model.Region;
 import com.mycompany.hibirnate.model.Role;
 import com.mycompany.hibirnate.model.User;
@@ -54,7 +60,16 @@ public class UserService {
         List<Region> regions= new RegionImpl().getAllObject();
         return regions;
     }
+    public boolean saveRealty(Realty realty){
+        return new CityImpl().insertOrUpdate(realty);
+    } 
     
- 
+    public City getCityByName(String name){
+        return new CityImpl().getCityByName(name);
+    }
+    
+    public void saveEntry(Entry entry){
+        new EntryImpl().insertOrUpdate(entry);
+    }
 
 }

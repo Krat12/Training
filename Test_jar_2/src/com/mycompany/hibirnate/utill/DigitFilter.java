@@ -7,7 +7,7 @@ import javax.swing.text.DocumentFilter;
 
 public class DigitFilter  extends DocumentFilter{
     
-    private static final String DIGITS = "^[1-9]\\d*(,\\d+)?$";
+    private static final String DIGITS = "\\d";
 
     @Override
     public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {

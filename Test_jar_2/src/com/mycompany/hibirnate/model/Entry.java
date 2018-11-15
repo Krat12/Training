@@ -1,8 +1,10 @@
 package com.mycompany.hibirnate.model;
 
+import static com.mysql.cj.MysqlType.NULL;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,8 +45,8 @@ public class Entry implements Serializable {
     private String phone;
     @Column(name = "adress")
     private String adress;
-    @JoinColumn(name = "realtor_id", referencedColumnName = "realtor_id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "realtor_id", referencedColumnName = "realtor_id",nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Realtor realtor;
     @JoinColumn(name = "realty_id", referencedColumnName = "realty_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
