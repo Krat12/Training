@@ -252,7 +252,6 @@ public class Registration extends javax.swing.JFrame {
            user.setRole(role);
            service = new UserService();
            service.saveUser(user);
-           
        }
     }//GEN-LAST:event_btn_confirmActionPerformed
 
@@ -282,6 +281,7 @@ public class Registration extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Registration.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

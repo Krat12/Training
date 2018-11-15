@@ -1,12 +1,18 @@
 package com.mycompany.hibirnate.model;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -16,6 +22,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Basic(optional = false)
     @Column(name = "email")
     private String email;
     @Column(name = "password")
@@ -26,8 +33,12 @@ public class User implements Serializable {
     private String lastName;
     @Column(name = "phone")
     private String phone;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Realtor> realtorList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Entry> entryList;
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
-    @ManyToOne( fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Role role;
 
     public User() {
@@ -77,6 +88,22 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
+    public List<Realtor> getRealtorList() {
+        return realtorList;
+    }
+
+    public void setRealtorList(List<Realtor> realtorList) {
+        this.realtorList = realtorList;
+    }
+
+    public List<Entry> getEntryList() {
+        return entryList;
+    }
+
+    public void setEntryList(List<Entry> entryList) {
+        this.entryList = entryList;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -107,9 +134,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "email=" + email + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", role=" + role + '}';
+        return "com.mycompany.hibirnate.model.User[ email=" + email + " ]";
     }
-
-  
 
 }

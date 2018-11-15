@@ -5,21 +5,17 @@
  */
 package com.mycompany.hibirnate.dao;
 
+import com.mycompany.hibirnate.model.User;
 import java.util.List;
 
 /**
  *
  * @author Admin
  */
-public interface DAO <Entity,Key > {
+public interface UserDAO {
     
-    boolean insertOrUpdate(Entity model);
-
-    boolean update(Entity model);
-
-    boolean delete(Entity model);
-
-    Entity getObjectByID(Key key,Class entity);
-
-    List<Entity> getAllObject();
+    List<User> getUsersByName(String name);
+    
+    User getUserByLoginAndPassword(String email,String password);
+    
 }

@@ -10,6 +10,7 @@ import com.mycompany.hibirnate.gui.realtor.RealtorForm;
 import com.mycompany.hibirnate.gui.user.UserForm;
 import com.mycompany.hibirnate.model.User;
 import com.mycompany.hibirnate.servise.UserService;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,8 +19,9 @@ import javax.swing.JOptionPane;
  */
 public class Authorization extends javax.swing.JFrame {
 
-    private User user;
+    public static User user;
     private UserService service;
+    //public static String EMAIL_USER = null; 
 
     public Authorization() {
         initComponents();
@@ -35,16 +37,9 @@ public class Authorization extends javax.swing.JFrame {
         return true;
     }
 
-    private boolean validatePassword() {
-        if (user.getPassword().equals(String.valueOf(txt_password.getPassword()))) {
-            return true;
-        }
-        return false;
-    }
-
     private void windowUserOrRaltorOrAdmin() {
 
-         String status = service.getUserRole(user);
+        String status = service.getUserRole(user);
 
         if (status.equals("A")) {
             this.dispose();
@@ -56,7 +51,7 @@ public class Authorization extends javax.swing.JFrame {
             UserForm userForm = new UserForm();
             userForm.setVisible(true);
         }
-        
+
         if (status.equals("R")) {
             this.dispose();
             RealtorForm realtorForm = new RealtorForm();
@@ -173,17 +168,16 @@ public class Authorization extends javax.swing.JFrame {
     private void btn_logActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logActionPerformed
 
         if (loginOrPasswordIsEmpty()) {
-
+            
             service = new UserService();
-           
-            user = service.getUserByEmail(txt_login.getText());
+            user = service.getUserByLoginAndPassword(txt_login.getText(),String.valueOf(txt_password.getPassword()));
             System.out.println(user);
+            
             if (user == null) {
-                JOptionPane.showMessageDialog(null, "Проверьте логин или пороль");
-            } else if (validatePassword()) {
-                windowUserOrRaltorOrAdmin();
+                JOptionPane.showMessageDialog(null, "Проверьте логин или пароль");
             } else {
-                JOptionPane.showMessageDialog(null, "Проверьте логин или пороль");
+                //EMAIL_USER = user.getEmail();
+                windowUserOrRaltorOrAdmin();
             }
 
         } else {
@@ -198,8 +192,8 @@ public class Authorization extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_backActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      service = new UserService();
-      service.getAllUsers();
+        service = new UserService();
+        System.out.println(Arrays.asList(service.getRoleById("U")));
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

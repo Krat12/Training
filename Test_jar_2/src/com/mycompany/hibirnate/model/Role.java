@@ -2,26 +2,32 @@ package com.mycompany.hibirnate.model;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "role")
+@NamedQueries({
+    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")})
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Basic(optional = false)
     @Column(name = "role_id")
     private String roleId;
     @Column(name = "role_name")
     private String roleName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY)
     private List<User> userList;
 
     public Role() {
@@ -77,10 +83,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "Role{" + "roleId=" + roleId + '}';
+        return "com.mycompany.hibirnate.model.Role[ roleId=" + roleId + " ]";
     }
-
-
-  
 
 }
