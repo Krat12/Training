@@ -1,19 +1,26 @@
 package com.mycompany.hibirnate.servise;
 
-import com.mycompany.hibirnate.dao.AbstractObjectDao;
 import com.mycompany.hibirnate.dao.CityImpl;
 import com.mycompany.hibirnate.dao.EntryImpl;
 import com.mycompany.hibirnate.dao.MySQLDatabaseUser;
 import com.mycompany.hibirnate.dao.RegionImpl;
 import com.mycompany.hibirnate.dao.RoleImpl;
+import com.mycompany.hibirnate.gui.user.RealtySell;
 import com.mycompany.hibirnate.model.City;
 import com.mycompany.hibirnate.model.Entry;
 import com.mycompany.hibirnate.model.Realty;
 import com.mycompany.hibirnate.model.Region;
 import com.mycompany.hibirnate.model.Role;
 import com.mycompany.hibirnate.model.User;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 public class UserService {
    
@@ -70,6 +77,21 @@ public class UserService {
     
     public void saveEntry(Entry entry){
         new EntryImpl().insertOrUpdate(entry);
+    }
+    
+   public byte[] getImage(String path) {
+        byte[] imageInByte = null;
+        try {
+            File fnew = new File(path);
+            BufferedImage originalImage = ImageIO.read(fnew);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(originalImage, "jpg", baos);
+            imageInByte = baos.toByteArray();
+            System.out.println(imageInByte.length);
+        } catch (IOException ex) {
+            Logger.getLogger(RealtySell.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return imageInByte;
     }
 
 }

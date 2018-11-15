@@ -17,8 +17,21 @@ import com.mycompany.hibirnate.servise.UserService;
 import com.mycompany.hibirnate.utill.DigitFilter;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -34,9 +47,8 @@ public class RealtySell extends javax.swing.JFrame {
     private static int room;
     private static final String FULL_NAME = Authorization.user.getFirstName() + " " + Authorization.user.getLastName();
     private static final String EMAIL = Authorization.user.getEmail();
-    private Realty realty;
-    private UserService service;
-    private DAO dao;
+    private static String path;
+
     public RealtySell() {
         initComponents();
         setLocationRelativeTo(null);
@@ -60,20 +72,20 @@ public class RealtySell extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Выберите город и регион");
             return false;
         }
-        if(txt_info.getText().equals("")|| lbl_img.getIcon().equals(null)){
+        if (txt_info.getText().equals("") || lbl_img.getIcon() == null) {
             return false;
         }
         return true;
     }
 
-    public void setEnableFalse() {
+    private void setEnableFalse() {
         lbl_one.setEnabled(false);
         lbl_one3.setEnabled(false);
         lbl_one1.setEnabled(false);
         lbl_one2.setEnabled(false);
     }
 
-    public void setEnableTrue() {
+    private void setEnableTrue() {
         lbl_one.setEnabled(true);
         lbl_one3.setEnabled(true);
         lbl_one1.setEnabled(true);
@@ -93,7 +105,7 @@ public class RealtySell extends javax.swing.JFrame {
     }
 
     private void getAllRegions() {
-        service = new UserService();
+        UserService service = new UserService();
         List<Region> regions = service.getAllRegions();
         for (Region region : regions) {
             cmb_region.addItem(region.getRegionName());
@@ -101,7 +113,7 @@ public class RealtySell extends javax.swing.JFrame {
     }
 
     private void getAllCitybyRegion() {
-        service = new UserService();
+        UserService service = new UserService();
         List<Region> regions = service.getAllRegions();
         for (Region region : regions) {
             if (region.getRegionName().equals(cmb_region.getSelectedItem())) {
@@ -112,6 +124,8 @@ public class RealtySell extends javax.swing.JFrame {
             }
         }
     }
+
+  
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -283,9 +297,14 @@ public class RealtySell extends javax.swing.JFrame {
         txt_area.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jPanel1.add(txt_area, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 780, 150, 40));
 
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
         txt_info.setColumns(20);
         txt_info.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txt_info.setLineWrap(true);
         txt_info.setRows(5);
+        txt_info.setWrapStyleWord(true);
+        txt_info.setAutoscrolls(false);
         jScrollPane1.setViewportView(txt_info);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 660, 500, 190));
@@ -521,11 +540,11 @@ public class RealtySell extends javax.swing.JFrame {
             panel_one.setBackground(new Color(255, 255, 255));
             panel_tree.setBackground(new Color(255, 255, 255));
             txt_floor.setEditable(true);
-            
+
         }
         if (cmb_realty.getSelectedItem().equals("Квартира")) {
             setEnableTrue();
-            txt_floor.setEditable(true);  
+            txt_floor.setEditable(true);
         }
         if (cmb_realty.getSelectedItem().equals("Земельный участок")) {
             setEnableFalse();
@@ -553,15 +572,21 @@ public class RealtySell extends javax.swing.JFrame {
             File selectedFile = file.getSelectedFile();
             String nameFile = selectedFile.getName();
             System.out.println(nameFile);
-            String path = selectedFile.getAbsolutePath();
+            path = selectedFile.getAbsolutePath();
             ImageIcon icon = new ImageIcon(path);
             lbl_img.setIcon(new ImageIcon(icon.getImage().getScaledInstance(lbl_img.getWidth(), lbl_img.getHeight(), Image.SCALE_SMOOTH)));
+
         }
     }//GEN-LAST:event_lbl_selectimageActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        Realty realty = new Realty();
+        UserService service = new UserService();
+        Entry entry = new Entry();
+
         if (cmb_realty.getSelectedItem().equals("Дом")) {
-            realty = new Realty();
+
             realty.setArea(Float.valueOf(txt_area.getText()));
             realty.setCost(Long.valueOf(txt_cost.getText()));
             realty.setNumberFloors(Integer.valueOf(txt_floor.getText()));
@@ -569,10 +594,8 @@ public class RealtySell extends javax.swing.JFrame {
             realty.setInfo(txt_info.getText());
             City city = service.getCityByName(String.valueOf(cmb_city.getSelectedItem()));
             realty.setCity(city);
-            service = new UserService();
+            realty.setImage(service.getImage(path));
             service.saveRealty(realty);
-            Entry entry = new Entry();
-            System.out.println(Authorization.user);
             entry.setUser(Authorization.user);
             entry.setRealty(realty);
             entry.setAdress(txt_adres.getText());
@@ -580,16 +603,8 @@ public class RealtySell extends javax.swing.JFrame {
             entry.setPhone(txt_phone.getText());
             entry.setStatusEntry("На обработки");
             entry.setTypeEntry("Продажа");
-            Realtor realtor = new Realtor();
-            entry.setRealtor(realtor);
-            //icon.getIconHeight(),BufferedImage.TYPE_INT_RGB);
-            //realty.setImage(lbl_img.get);
-            service = new UserService();
             service.saveEntry(entry);
-            
-            
-            
-           
+
         }
         if (cmb_realty.getSelectedItem().equals("Квартира")) {
 
@@ -635,10 +650,8 @@ public class RealtySell extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RealtySell().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new RealtySell().setVisible(true);
         });
     }
 

@@ -1,10 +1,7 @@
 package com.mycompany.hibirnate.model;
 
-import static com.mysql.cj.MysqlType.NULL;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,14 +17,11 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "entry")
-@NamedQueries({
-    @NamedQuery(name = "Entry.findAll", query = "SELECT e FROM Entry e")})
 public class Entry implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "entry_id")
     private Integer entryId;
     @Column(name = "registration_date")
@@ -45,8 +37,8 @@ public class Entry implements Serializable {
     private String phone;
     @Column(name = "adress")
     private String adress;
-    @JoinColumn(name = "realtor_id", referencedColumnName = "realtor_id",nullable = true)
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "realtor_id", referencedColumnName = "realtor_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Realtor realtor;
     @JoinColumn(name = "realty_id", referencedColumnName = "realty_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -164,7 +156,7 @@ public class Entry implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.hibirnate.model.Entry[ entryId=" + entryId + " ]";
+        return "Entry[ entryId=" + entryId + " ]";
     }
 
 }

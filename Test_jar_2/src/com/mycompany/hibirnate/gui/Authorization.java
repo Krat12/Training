@@ -21,7 +21,6 @@ public class Authorization extends javax.swing.JFrame {
 
     public static User user;
     private UserService service;
-    //public static String EMAIL_USER = null; 
 
     public Authorization() {
         initComponents();
@@ -168,15 +167,15 @@ public class Authorization extends javax.swing.JFrame {
     private void btn_logActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logActionPerformed
 
         if (loginOrPasswordIsEmpty()) {
-            
+
             service = new UserService();
-            user = service.getUserByLoginAndPassword(txt_login.getText(),String.valueOf(txt_password.getPassword()));
+            user = service.getUserByLoginAndPassword(txt_login.getText(), String.valueOf(txt_password.getPassword()));
             System.out.println(user);
-            
+
             if (user == null) {
                 JOptionPane.showMessageDialog(null, "Проверьте логин или пароль");
             } else {
-                //EMAIL_USER = user.getEmail();
+
                 windowUserOrRaltorOrAdmin();
             }
 
