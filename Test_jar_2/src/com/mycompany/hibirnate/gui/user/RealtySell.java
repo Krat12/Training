@@ -51,13 +51,15 @@ public class RealtySell extends javax.swing.JFrame {
             return false;
         }
         if (txt_adres.getText().equals("") || txt_area.getText().equals("") || txt_cost.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Не все поля заполнены");
             return false;
         }
         if (cmb_region.getSelectedItem().equals("Регион") || cmb_city.getSelectedItem().equals("Город")) {
             JOptionPane.showMessageDialog(null, "Выберите город и регион");
-            return false;
+           return false;
         }
         if (txt_info.getText().equals("") || lbl_img.getIcon() == null) {
+            JOptionPane.showMessageDialog(null, "Проверьте изоброжение и описание объявления");
             return false;
         }
         return true;
@@ -110,7 +112,40 @@ public class RealtySell extends javax.swing.JFrame {
         }
     }
 
-  
+    private void setEntry(Realty realty) {
+        
+        UserService service = new UserService();
+        Entry entry = new Entry();
+        entry.setUser(Authorization.user);
+        entry.setRealty(realty);
+        entry.setAdress(txt_adres.getText());
+        entry.setFullname(txt_fullname.getText());
+        entry.setPhone(txt_phone.getText());
+        entry.setStatusEntry("На обработки");
+        entry.setTypeEntry("Продажа");
+        service.saveEntry(entry);
+    }
+
+    private Realty getRealty() {
+        Realty realty = new Realty();
+        UserService service = new UserService();
+
+        realty.setArea(Float.valueOf(txt_area.getText()));
+        realty.setCost(Long.valueOf(txt_cost.getText()));
+        realty.setTypeRealty(String.valueOf(cmb_realty.getSelectedItem()));
+        realty.setInfo(txt_info.getText());
+        City city = service.getCityByName(String.valueOf(cmb_city.getSelectedItem()));
+        realty.setCity(city);
+        realty.setImage(service.getImage(path));
+        if (cmb_realty.getSelectedItem().equals("Квартира")) {
+            realty.setRooms(room);
+        }
+        if (cmb_realty.getSelectedItem().equals("Дом")) {
+            realty.setNumberFloors(Integer.valueOf(txt_floor.getText()));
+        }
+        service.saveRealty(realty);
+        return realty;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -565,38 +600,23 @@ public class RealtySell extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_selectimageActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.out.println(UserService.checkCharser(txt_phone.getText()));
+        if (isEmptyField()) {
+            if (room != 0 && cmb_realty.getSelectedItem().equals("Квартира")) {
+                setEntry(getRealty());
 
-        Realty realty = new Realty();
-        UserService service = new UserService();
-        Entry entry = new Entry();
+            } else if (txt_floor.getText().equals("") && cmb_realty.getSelectedItem().equals("Дом")) {
+                setEntry(getRealty());
 
-        if (cmb_realty.getSelectedItem().equals("Дом")) {
-
-            realty.setArea(Float.valueOf(txt_area.getText()));
-            realty.setCost(Long.valueOf(txt_cost.getText()));
-            realty.setNumberFloors(Integer.valueOf(txt_floor.getText()));
-            realty.setTypeRealty(String.valueOf(cmb_realty.getSelectedItem()));
-            realty.setInfo(txt_info.getText());
-            City city = service.getCityByName(String.valueOf(cmb_city.getSelectedItem()));
-            realty.setCity(city);
-            realty.setImage(service.getImage(path));
-            service.saveRealty(realty);
-            entry.setUser(Authorization.user);
-            entry.setRealty(realty);
-            entry.setAdress(txt_adres.getText());
-            entry.setFullname(txt_fullname.getText());
-            entry.setPhone(txt_phone.getText());
-            entry.setStatusEntry("На обработки");
-            entry.setTypeEntry("Продажа");
-            service.saveEntry(entry);
+            } else if (cmb_realty.getSelectedItem().equals("Земельный участок")) {
+                setEntry(getRealty());
+            } else {
+                JOptionPane.showMessageDialog(null, "Не все поля заполнены");
+            }
 
         }
-        if (cmb_realty.getSelectedItem().equals("Квартира")) {
 
-        }
-        if (cmb_realty.getSelectedItem().equals("Земельный участок")) {
 
-        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void cmb_regionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_regionActionPerformed

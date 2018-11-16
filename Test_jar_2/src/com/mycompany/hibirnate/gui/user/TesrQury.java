@@ -48,6 +48,8 @@ public class TesrQury {
 //            //icon.getIconHeight(),BufferedImage.TYPE_INT_RGB);
 //            //realty.setImage(lbl_img.get);
 //            service.saveEntry(entry);
+
+
     }
     
 }

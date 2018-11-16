@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.mycompany.hibirnate.dao.interfaces;
-
 import com.mycompany.hibirnate.model.City;
 
 /**

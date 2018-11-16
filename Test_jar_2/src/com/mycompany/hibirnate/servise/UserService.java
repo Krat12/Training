@@ -21,14 +21,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 public class UserService {
    
-            
+    
     public UserService() {
 
     }
-
+    
     public String getUserRole(User user) {
         String role = user.getRole().getRoleId();
         return role;
@@ -93,5 +94,14 @@ public class UserService {
         }
         return imageInByte;
     }
+   
+   public static boolean checkCharser(String inutData){
+       String regexp = "{0,10}";
+       if (inutData.matches(regexp)){
+           return true;
+       }
+       JOptionPane.showMessageDialog(null, "Размер поля не должен превышать 10 символов");
+       return false;
+   }
 
 }
