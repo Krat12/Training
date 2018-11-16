@@ -5,10 +5,11 @@
  */
 package com.mycompany.hibirnate.dao;
 
+import com.mycompany.hibirnate.dao.interfaces.CityDAO;
+import com.mycompany.hibirnate.dao.interfaces.AbstractObjectDao;
 import com.mycompany.hibirnate.model.City;
 import com.mycompany.hibirnate.model.Realty;
 import com.mycompany.hibirnate.utill.HibernateSessionFactoryUtill;
-import org.hibernate.Hibernate;
 import org.hibernate.query.Query;
 
 /**

@@ -5,6 +5,7 @@
  */
 package com.mycompany.hibirnate.dao;
 
+import com.mycompany.hibirnate.dao.interfaces.AbstractObjectDao;
 import com.mycompany.hibirnate.model.Entry;
 
 /**

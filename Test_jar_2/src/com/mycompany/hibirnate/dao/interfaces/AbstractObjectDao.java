@@ -1,4 +1,4 @@
-package com.mycompany.hibirnate.dao;
+package com.mycompany.hibirnate.dao.interfaces;
 
 import com.mycompany.hibirnate.utill.HibernateSessionFactoryUtill;
 import java.io.Serializable;

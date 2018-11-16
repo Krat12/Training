@@ -5,33 +5,18 @@
  */
 package com.mycompany.hibirnate.gui.user;
 
-import com.mycompany.hibirnate.dao.DAO;
 import com.mycompany.hibirnate.gui.Authorization;
 import com.mycompany.hibirnate.gui.MainWindow;
 import com.mycompany.hibirnate.model.City;
 import com.mycompany.hibirnate.model.Entry;
-import com.mycompany.hibirnate.model.Realtor;
 import com.mycompany.hibirnate.model.Realty;
 import com.mycompany.hibirnate.model.Region;
 import com.mycompany.hibirnate.servise.UserService;
 import com.mycompany.hibirnate.utill.DigitFilter;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;

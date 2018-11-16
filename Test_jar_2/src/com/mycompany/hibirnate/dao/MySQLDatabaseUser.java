@@ -1,5 +1,7 @@
 package com.mycompany.hibirnate.dao;
 
+import com.mycompany.hibirnate.dao.interfaces.UserDAO;
+import com.mycompany.hibirnate.dao.interfaces.AbstractObjectDao;
 import com.mycompany.hibirnate.model.User;
 import com.mycompany.hibirnate.utill.HibernateSessionFactoryUtill;
 import java.util.List;
