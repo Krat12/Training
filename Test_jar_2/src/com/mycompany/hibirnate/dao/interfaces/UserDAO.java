@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Admin
  */
-public interface UserDAO {
+public interface UserDAO extends ObjectDAO<User, String>{
     
     List<User> getUsersByName(String name);
     

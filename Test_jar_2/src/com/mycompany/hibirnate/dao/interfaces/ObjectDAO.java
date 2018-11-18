@@ -11,11 +11,9 @@ import java.util.List;
  *
  * @author Admin
  */
-public interface DAO <Entity,Key > {
+public interface ObjectDAO <Entity,Key> {
     
     boolean insertOrUpdate(Entity model);
-
-    boolean update(Entity model);
 
     boolean delete(Entity model);
 

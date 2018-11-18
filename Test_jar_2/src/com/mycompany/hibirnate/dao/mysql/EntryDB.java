@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.hibirnate.dao;
+package com.mycompany.hibirnate.dao.mysql;
 
 import com.mycompany.hibirnate.dao.interfaces.AbstractObjectDao;
 import com.mycompany.hibirnate.model.Entry;
@@ -12,9 +12,9 @@ import com.mycompany.hibirnate.model.Entry;
  *
  * @author WSR
  */
-public class EntryImpl extends AbstractObjectDao<Entry, Integer>{
+public class EntryDB extends AbstractObjectDao<Entry, Integer>{
 
-    public EntryImpl() {
+    public EntryDB() {
         super("Entry");
     }
     

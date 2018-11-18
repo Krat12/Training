@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public abstract class AbstractObjectDao<Entity, Key> implements DAO<Entity, Key> {
+public abstract class AbstractObjectDao<Entity, Key> implements ObjectDAO<Entity,Key> {
 
     private String entityName;
 
@@ -52,15 +52,8 @@ public abstract class AbstractObjectDao<Entity, Key> implements DAO<Entity, Key>
     }
 
     @Override
-    public boolean update(Entity model) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public boolean delete(Entity model) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
 
 }

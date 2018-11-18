@@ -1,10 +1,12 @@
 package com.mycompany.hibirnate.servise;
 
-import com.mycompany.hibirnate.dao.CityImpl;
-import com.mycompany.hibirnate.dao.EntryImpl;
-import com.mycompany.hibirnate.dao.MySQLDatabaseUser;
-import com.mycompany.hibirnate.dao.RegionImpl;
-import com.mycompany.hibirnate.dao.RoleImpl;
+import com.mycompany.hibirnate.dao.mysql.CityDB;
+import com.mycompany.hibirnate.dao.mysql.EntryDB;
+import com.mycompany.hibirnate.dao.mysql.UserDB;
+import com.mycompany.hibirnate.dao.mysql.RegionDB;
+import com.mycompany.hibirnate.dao.mysql.RoleDB;
+import com.mycompany.hibirnate.dao.interfaces.UserDAO;
+import com.mycompany.hibirnate.dao.mysql.RealtyDB;
 import com.mycompany.hibirnate.gui.user.RealtySell;
 import com.mycompany.hibirnate.model.City;
 import com.mycompany.hibirnate.model.Entry;
@@ -21,66 +23,86 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
 public class UserService {
-   
-    
+
+    private UserDAO userDAO = UserDB.getInstance();
+    private static List<Region> regions;
+
     public UserService() {
 
     }
-    
+
     public String getUserRole(User user) {
         String role = user.getRole().getRoleId();
         return role;
     }
 
-    public void saveUser(User user) {
-        new MySQLDatabaseUser().insertOrUpdate(user);
-        System.out.println(user);
+    public boolean saveUser(User user) {
+        if (getUserByEmail(user.getEmail()) == null) {
+            userDAO.insertOrUpdate(user);
+            return true;
+        }
+      return false;
     }
 
-    public User getUserByEmail(String email) {  
-        return  (User) new MySQLDatabaseUser().getObjectByID(email,User.class);
+    public User getUserByEmail(String email) {
+
+        return (User) userDAO.getObjectByID(email, User.class);
     }
 
     public List<User> getAllUsers() {
-        List<User> users = new MySQLDatabaseUser().getAllObject();
-        System.out.println(users);
+
+        List<User> users = userDAO.getAllObject();
         return users;
     }
-    
-    public Role getRoleById(String id){
-        Role role =  (Role) new RoleImpl().getObjectByID(id,Role.class);
+
+    public Role getRoleById(String id) {
+        Role role = (Role) new RoleDB().getObjectByID(id, Role.class);
         System.out.println(Arrays.asList(role.getUserList()));
         return role;
     }
-    
-    public List<User>getUserByName(String name){
-        return new MySQLDatabaseUser().getUsersByName(name);
+
+    public List<User> getUserByName(String name) {
+        return userDAO.getUsersByName(name);
     }
-    
-    public User getUserByLoginAndPassword(String email, String password){
-        return (User) new MySQLDatabaseUser().getUserByLoginAndPassword(email, password);
+
+    public User getUserByLoginAndPassword(String email, String password) {
+        return userDAO.getUserByLoginAndPassword(email, password);
     }
-    
-    public List<Region> getAllRegions(){
-        List<Region> regions= new RegionImpl().getAllObject();
+
+    public List<Region> getAllRegions() {
+        if (regions == null) {
+            regions = new RegionDB().getAllObject();
+        }
         return regions;
     }
-    public boolean saveRealty(Realty realty){
-        return new CityImpl().insertOrUpdate(realty);
-    } 
-    
-    public City getCityByName(String name){
-        return new CityImpl().getCityByName(name);
+
+    public boolean saveRealty(Realty realty) {
+
+        return new RealtyDB().insertOrUpdate(realty);
+
     }
-    
-    public void saveEntry(Entry entry){
-        new EntryImpl().insertOrUpdate(entry);
+
+    public City getCityByName(String name) {
+        return new CityDB().getCityByName(name);
     }
-    
-   public byte[] getImage(String path) {
+
+    public void saveEntry(Entry entry) {
+        new EntryDB().insertOrUpdate(entry);
+    }
+
+    public static boolean checkCharser(String inutData) {
+        String regexp = "{0,10}";
+        return inutData.matches(regexp);
+    }
+
+//   public User getTestUser(String email){
+//      AbstractObjectDao  databaseUser = new MySQLDatabaseUser();
+//       
+//       return (User) databaseUser.getObjectByID(email, User.class);
+//   }
+    public byte[] getImage(String path) {
         byte[] imageInByte = null;
         try {
             File fnew = new File(path);
@@ -94,14 +116,4 @@ public class UserService {
         }
         return imageInByte;
     }
-   
-   public static boolean checkCharser(String inutData){
-       String regexp = "{0,10}";
-       if (inutData.matches(regexp)){
-           return true;
-       }
-       JOptionPane.showMessageDialog(null, "Размер поля не должен превышать 10 символов");
-       return false;
-   }
-
 }

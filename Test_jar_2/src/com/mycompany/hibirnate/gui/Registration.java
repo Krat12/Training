@@ -5,6 +5,8 @@
  */
 package com.mycompany.hibirnate.gui;
 
+import static com.mycompany.hibirnate.gui.Authorization.user;
+import com.mycompany.hibirnate.gui.user.UserForm;
 import com.mycompany.hibirnate.model.Role;
 import com.mycompany.hibirnate.model.User;
 import com.mycompany.hibirnate.servise.UserService;
@@ -12,6 +14,7 @@ import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -20,8 +23,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Registration extends javax.swing.JFrame {
 
-    private UserService service;
-    
     public Registration() {
         super("Регистрация");
         initComponents();
@@ -30,7 +31,7 @@ public class Registration extends javax.swing.JFrame {
     }
 
     private boolean isEmptyField() {
-        
+
         if (txt_loginR.getText().equals("") || String.valueOf(txt_passwordR.getPassword()).equals("")) {
             return false;
         }
@@ -43,8 +44,18 @@ public class Registration extends javax.swing.JFrame {
         }
         return true;
     }
- 
-    
+
+    private void createUserAccount(User user) {
+        UserService service = new UserService();
+        if (service.saveUser(user)) {
+            this.dispose();
+            UserForm userForm = new UserForm();
+            userForm.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Такой пользователь существует");
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -219,15 +230,14 @@ public class Registration extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_backActionPerformed
 
     private void btn_addImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addImageActionPerformed
-        
+
         JFileChooser file = new JFileChooser();
         file.setCurrentDirectory(new File(System.getProperty("user.home")));
-       
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.images", "jpg","png");
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.images", "jpg", "png");
         file.setFileFilter(filter);
         int result = file.showSaveDialog(null);
-        if(result == JFileChooser.APPROVE_OPTION)
-        {
+        if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = file.getSelectedFile();
             String nameFile = selectedFile.getName();
             System.out.println(nameFile);
@@ -235,24 +245,25 @@ public class Registration extends javax.swing.JFrame {
             ImageIcon icon = new ImageIcon(path);
             lbl_image.setIcon(new ImageIcon(icon.getImage().getScaledInstance(lbl_image.getWidth(), lbl_image.getHeight(), Image.SCALE_SMOOTH)));
         }
-        
-            
+
+
     }//GEN-LAST:event_btn_addImageActionPerformed
 
     private void btn_confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_confirmActionPerformed
-       if (isEmptyField()){
-           User user = new User();
-           user.setEmail(txt_loginR.getText());
-           user.setFirstName(txt_name.getText());
-           user.setLastName(txt_surname.getText());
-           user.setPassword(String.valueOf(txt_passwordR.getPassword()));
-           user.setPhone(txt_phone.getText());
-           Role role = new Role();
-           role.setRoleId("U");
-           user.setRole(role);
-           service = new UserService();
-           service.saveUser(user);
-       }
+
+        if (isEmptyField()) {
+            Authorization.user = new User();
+            user.setEmail(txt_loginR.getText());
+            user.setFirstName(txt_name.getText());
+            user.setLastName(txt_surname.getText());
+            user.setPassword(String.valueOf(txt_passwordR.getPassword()));
+            user.setPhone(txt_phone.getText());
+            Role role = new Role();
+            role.setRoleId("U");
+            user.setRole(role);
+            createUserAccount(user);
+        }
+
     }//GEN-LAST:event_btn_confirmActionPerformed
 
     /**
@@ -281,7 +292,7 @@ public class Registration extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Registration.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -25,9 +25,9 @@ public class TesrQury {
      */
     public static void main(String[] args) {
      
-//     HibernateSessionFactoryUtill.getSessionFactory();   
-//     Realty realty = new Realty();
-//     UserService service = new UserService();
+    HibernateSessionFactoryUtill.getSessionFactory();   
+//     Realty realty = new Realty();  
+//UserService service = new UserService();
 //     Entry entry = new Entry();
 //     User user = new User("predator.1198@mail.ru");
 //            realty.setArea(Float.valueOf(22));
@@ -48,7 +48,7 @@ public class TesrQury {
 //            //icon.getIconHeight(),BufferedImage.TYPE_INT_RGB);
 //            //realty.setImage(lbl_img.get);
 //            service.saveEntry(entry);
-
+      //  service.getTestUser("predator.1198@mail.ru");
 
     }
     

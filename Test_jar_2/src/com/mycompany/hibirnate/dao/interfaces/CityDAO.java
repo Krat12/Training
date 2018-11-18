@@ -10,7 +10,6 @@ import com.mycompany.hibirnate.model.City;
  *
  * @author WSR
  */
-public interface CityDAO {
-    
+public interface CityDAO extends ObjectDAO<City, Integer>{
     City getCityByName(String name);
 }

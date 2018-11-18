@@ -33,6 +33,7 @@ public class RealtySell extends javax.swing.JFrame {
     private static final String FULL_NAME = Authorization.user.getFirstName() + " " + Authorization.user.getLastName();
     private static final String EMAIL = Authorization.user.getEmail();
     private static String path;
+    private static UserService service = new UserService();
 
     public RealtySell() {
         initComponents();
@@ -56,7 +57,7 @@ public class RealtySell extends javax.swing.JFrame {
         }
         if (cmb_region.getSelectedItem().equals("Регион") || cmb_city.getSelectedItem().equals("Город")) {
             JOptionPane.showMessageDialog(null, "Выберите город и регион");
-           return false;
+            return false;
         }
         if (txt_info.getText().equals("") || lbl_img.getIcon() == null) {
             JOptionPane.showMessageDialog(null, "Проверьте изоброжение и описание объявления");
@@ -92,7 +93,6 @@ public class RealtySell extends javax.swing.JFrame {
     }
 
     private void getAllRegions() {
-        UserService service = new UserService();
         List<Region> regions = service.getAllRegions();
         for (Region region : regions) {
             cmb_region.addItem(region.getRegionName());
@@ -100,7 +100,6 @@ public class RealtySell extends javax.swing.JFrame {
     }
 
     private void getAllCitybyRegion() {
-        UserService service = new UserService();
         List<Region> regions = service.getAllRegions();
         for (Region region : regions) {
             if (region.getRegionName().equals(cmb_region.getSelectedItem())) {
@@ -113,8 +112,7 @@ public class RealtySell extends javax.swing.JFrame {
     }
 
     private void setEntry(Realty realty) {
-        
-        UserService service = new UserService();
+
         Entry entry = new Entry();
         entry.setUser(Authorization.user);
         entry.setRealty(realty);
@@ -128,7 +126,6 @@ public class RealtySell extends javax.swing.JFrame {
 
     private Realty getRealty() {
         Realty realty = new Realty();
-        UserService service = new UserService();
 
         realty.setArea(Float.valueOf(txt_area.getText()));
         realty.setCost(Long.valueOf(txt_cost.getText()));

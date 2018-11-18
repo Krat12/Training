@@ -29,7 +29,7 @@ public class City implements Serializable {
     @Column(name = "City_name")
     private String cityname;
     @JoinColumn(name = "Region_id", referencedColumnName = "region_id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Region region;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", fetch = FetchType.LAZY)
     private List<Realty> realtyList;

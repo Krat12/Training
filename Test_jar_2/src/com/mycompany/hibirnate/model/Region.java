@@ -27,7 +27,7 @@ public class Region implements Serializable {
     private Integer regionId;
     @Column(name = "region_name")
     private String regionName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "region", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "region", fetch = FetchType.EAGER)
     private List<City> cityList;
 
     public Region() {
