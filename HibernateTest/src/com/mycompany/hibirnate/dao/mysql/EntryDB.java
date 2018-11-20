@@ -14,10 +14,20 @@ import com.mycompany.hibirnate.model.Entry;
  */
 public class EntryDB extends AbstractObjectDao<Entry, Integer>{
 
+    private static final String ENTRY_OBJECT = "Entry";
+    
     public EntryDB() {
-        super("Entry");
+        super(ENTRY_OBJECT);
     }
     
+    private static EntryDB instance;
     
+    public static EntryDB getInstance(){
+        if (instance == null){
+            instance = new EntryDB();
+        }
+        return instance;
+        
+    }
     
 }

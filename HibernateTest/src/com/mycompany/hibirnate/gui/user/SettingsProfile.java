@@ -28,7 +28,14 @@ public class SettingsProfile extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(true);
+        mappingDate();
+
+    }
+
+    private void mappingDate() {
         email.setText(Authorization.user.getEmail());
+        txt_name.setText(Authorization.user.getFirstName());
+        txt_lastName.setText(Authorization.user.getLastName());
     }
 
     private boolean isEmptyPassword() {
@@ -46,10 +53,6 @@ public class SettingsProfile extends javax.swing.JFrame {
             return false;
         }
 
-        if (txt_phone.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Должны быть заполнены 3 основных поля");
-            return false;
-        }
         return true;
     }
 
@@ -137,6 +140,10 @@ public class SettingsProfile extends javax.swing.JFrame {
             }
         });
 
+        txt_name.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        txt_lastName.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
         jLabel7.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(153, 153, 153));
         jLabel7.setText("Смена пароля");
@@ -151,6 +158,8 @@ public class SettingsProfile extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel10.setText("Телефон");
+
+        txt_phone.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         lbl_img.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -308,9 +317,9 @@ public class SettingsProfile extends javax.swing.JFrame {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("*.images", "jpg", "png");
         file.setFileFilter(filter);
         int result = file.showSaveDialog(null);
-        
+
         if (result == JFileChooser.APPROVE_OPTION) {
-            
+
             File selectedFile = file.getSelectedFile();
             String nameFile = selectedFile.getName();
             System.out.println(nameFile);
@@ -321,31 +330,28 @@ public class SettingsProfile extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_selectimageActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        service = new UserService();
         if (isEmptyPassword()) {
-            if (isEmptyField()) {
-                if (equalsPassword()) {
-                    Authorization.user.setFirstName(txt_name.getText());
-                    Authorization.user.setLastName(txt_lastName.getText());
-                    Authorization.user.setPhone(txt_phone.getText());
-                    Authorization.user.setPassword(String.valueOf(txt_password.getPassword()));
-
-                    service = new UserService();
-                    service.saveUser(Authorization.user);//Исправить
-                    JOptionPane.showMessageDialog(null, "Данные обновились");
-                }
-            }
-        } else {
-            if (isEmptyField()) {
-
+            if (equalsPassword()) {
                 Authorization.user.setFirstName(txt_name.getText());
                 Authorization.user.setLastName(txt_lastName.getText());
                 Authorization.user.setPhone(txt_phone.getText());
-                
-                service = new UserService();
-                service.saveUser(Authorization.user);
+                Authorization.user.setPassword(String.valueOf(txt_password.getPassword()));
                 JOptionPane.showMessageDialog(null, "Данные обновились");
             }
         }
+        if (isEmptyField()) {
+            Authorization.user.setFirstName(txt_name.getText());
+            Authorization.user.setLastName(txt_lastName.getText());
+            if (txt_phone.getText().equals("")) {
+                Authorization.user.setPhone(txt_phone.getText());
+            }
+            if (!isEmptyPassword()) {
+                JOptionPane.showMessageDialog(null, "Данные обновились");
+            }
+        }
+        service.updateUser(Authorization.user);
+
     }//GEN-LAST:event_saveActionPerformed
 
     /**

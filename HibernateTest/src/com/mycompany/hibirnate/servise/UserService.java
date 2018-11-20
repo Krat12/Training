@@ -1,5 +1,6 @@
 package com.mycompany.hibirnate.servise;
 
+import com.mycompany.hibirnate.dao.interfaces.ObjectDAO;
 import com.mycompany.hibirnate.dao.mysql.CityDB;
 import com.mycompany.hibirnate.dao.mysql.EntryDB;
 import com.mycompany.hibirnate.dao.mysql.UserDB;
@@ -27,6 +28,7 @@ import javax.imageio.ImageIO;
 public class UserService {
 
     private UserDAO userDAO = UserDB.getInstance();
+    private ObjectDAO entryDAO = EntryDB.getInstance();
     private static List<Region> regions;
 
     public UserService() {
@@ -40,10 +42,18 @@ public class UserService {
 
     public boolean saveUser(User user) {
         if (getUserByEmail(user.getEmail()) == null) {
-            userDAO.insertOrUpdate(user);
+            userDAO.insert(user);
             return true;
         }
-      return false;
+        return false;
+    }
+
+    public boolean updateUser(User user) {
+        if (user != null) {
+            userDAO.update(user);
+            return true;
+        }
+        return false;
     }
 
     public User getUserByEmail(String email) {
@@ -80,7 +90,7 @@ public class UserService {
 
     public boolean saveRealty(Realty realty) {
 
-        return new RealtyDB().insertOrUpdate(realty);
+        return new RealtyDB().insert(realty);
 
     }
 
@@ -89,7 +99,7 @@ public class UserService {
     }
 
     public void saveEntry(Entry entry) {
-        new EntryDB().insertOrUpdate(entry);
+        entryDAO.insert(entry);
     }
 
     public static boolean checkCharser(String inutData) {

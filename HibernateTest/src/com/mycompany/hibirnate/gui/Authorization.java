@@ -83,8 +83,12 @@ public class Authorization extends javax.swing.JFrame {
         jLabel2.setText("Password:");
 
         txt_login.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txt_login.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txt_login.setSelectionColor(new java.awt.Color(255, 255, 255));
 
         txt_password.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txt_password.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txt_password.setSelectionColor(new java.awt.Color(255, 255, 255));
 
         jButton1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jButton1.setText("Cancel");
@@ -102,8 +106,10 @@ public class Authorization extends javax.swing.JFrame {
             }
         });
 
+        btn_back.setBackground(new java.awt.Color(204, 204, 204));
         btn_back.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_back.setText("Назад");
+        btn_back.setBorder(null);
         btn_back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_backActionPerformed(evt);

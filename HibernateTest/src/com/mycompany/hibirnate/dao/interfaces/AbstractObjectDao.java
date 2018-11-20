@@ -19,12 +19,12 @@ public abstract class AbstractObjectDao<Entity, Key> implements ObjectDAO<Entity
     }
 
     @Override
-    public boolean insertOrUpdate(Entity model) {
+    public boolean insert(Entity model) {
         Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.saveOrUpdate(model);
+            session.save(model);
             transaction.commit();
 
         } catch (Exception e) {
@@ -55,5 +55,27 @@ public abstract class AbstractObjectDao<Entity, Key> implements ObjectDAO<Entity
     public boolean delete(Entity model) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public boolean update(Entity model) {
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.update(model);
+            transaction.commit();
+
+        } catch (Exception e) {
+            System.out.println("Exeption" + e);
+            return false;
+        } finally {
+            session.close();
+        }
+
+        return true;
+    }
+    
+    
+    
 
 }

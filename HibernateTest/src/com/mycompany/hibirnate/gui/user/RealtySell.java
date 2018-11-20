@@ -123,6 +123,7 @@ public class RealtySell extends javax.swing.JFrame {
         entry.setStatusEntry("На обработки");
         entry.setTypeEntry("Продажа");
         service.saveEntry(entry);
+        JOptionPane.showMessageDialog(null, "Заявка добавлена");
     }
 
     private Realty getRealty() {
@@ -232,6 +233,7 @@ public class RealtySell extends javax.swing.JFrame {
         jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 171, 260, 24));
 
         txt_fullname.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txt_fullname.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.add(txt_fullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(134, 213, 261, -1));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -243,6 +245,7 @@ public class RealtySell extends javax.swing.JFrame {
         jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(38, 263, -1, -1));
 
         txt_phone.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txt_phone.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.add(txt_phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 261, 263, -1));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -268,6 +271,7 @@ public class RealtySell extends javax.swing.JFrame {
         jPanel1.add(cmb_city, new org.netbeans.lib.awtextra.AbsoluteConstraints(294, 430, 186, 36));
 
         txt_adres.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txt_adres.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.add(txt_adres, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 515, 424, -1));
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -305,6 +309,7 @@ public class RealtySell extends javax.swing.JFrame {
         jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 659, -1, -1));
 
         txt_floor.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txt_floor.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.add(txt_floor, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 780, 150, 40));
 
         jLabel18.setFont(new java.awt.Font("Dialog", 0, 16)); // NOI18N
@@ -312,6 +317,7 @@ public class RealtySell extends javax.swing.JFrame {
         jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 750, -1, -1));
 
         txt_area.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txt_area.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.add(txt_area, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 780, 150, 40));
 
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -479,6 +485,7 @@ public class RealtySell extends javax.swing.JFrame {
         jPanel1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 750, -1, -1));
 
         txt_cost.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txt_cost.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.add(txt_cost, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 780, 150, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -602,7 +609,7 @@ public class RealtySell extends javax.swing.JFrame {
             if (room != 0 && cmb_realty.getSelectedItem().equals("Квартира")) {
                 setEntry(getRealty());
 
-            } else if (txt_floor.getText().equals("") && cmb_realty.getSelectedItem().equals("Дом")) {
+            } else if (cmb_realty.getSelectedItem().equals("Дом")) {
                 setEntry(getRealty());
 
             } else if (cmb_realty.getSelectedItem().equals("Земельный участок")) {

@@ -13,13 +13,15 @@ import java.util.List;
  */
 public interface ObjectDAO <Entity,Key> {
     
-    boolean insertOrUpdate(Entity model);
+    boolean insert(Entity model);
 
     boolean delete(Entity model);
 
     Entity getObjectByID(Key key,Class entity);
 
     List<Entity> getAllObject();
+    
+    boolean update(Entity model);
     
    // Entity getObjectByName(); 
 }
