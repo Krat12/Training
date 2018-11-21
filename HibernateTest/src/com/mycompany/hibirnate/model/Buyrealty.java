@@ -12,22 +12,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "buyrealty")
-@NamedQueries({
-    @NamedQuery(name = "Buyrealty.findAll", query = "SELECT b FROM Buyrealty b")})
 public class Buyrealty implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "bay_id")
     private Integer bayId;
     @Column(name = "fullname")

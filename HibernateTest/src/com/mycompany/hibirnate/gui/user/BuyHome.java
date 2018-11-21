@@ -30,8 +30,6 @@ public class BuyHome extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
@@ -43,6 +41,8 @@ public class BuyHome extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,6 +52,74 @@ public class BuyHome extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(700, 610));
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setPreferredSize(new java.awt.Dimension(910, 90));
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10);
+        flowLayout1.setAlignOnBaseline(true);
+        jPanel3.setLayout(flowLayout1);
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setPreferredSize(new java.awt.Dimension(920, 90));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTextField1.setText("От");
+        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField1FocusLost(evt);
+            }
+        });
+        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 44, 170, 31));
+
+        jTextField2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTextField2.setText("До");
+        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField2FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField2FocusLost(evt);
+            }
+        });
+        jPanel4.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 44, 170, 31));
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButton1.setText("Найти");
+        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 40, 90, 40));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel4.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 40, 140, 40));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel1.setText("Стоймость:");
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 11, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel2.setText("Площадь (м  ):");
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(407, 11, -1, -1));
+
+        jTextField3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTextField3.setText("До");
+        jPanel4.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(524, 44, 107, 30));
+
+        jTextField4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTextField4.setText("От");
+        jPanel4.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(407, 44, 107, 31));
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel3.setText("2");
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, -1, -1));
+
+        jPanel3.add(jPanel4);
+
+        jPanel2.add(jPanel3);
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(453, 440));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -64,68 +132,10 @@ public class BuyHome extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.setPreferredSize(new java.awt.Dimension(300, 76));
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout();
-        flowLayout1.setAlignOnBaseline(true);
-        jPanel3.setLayout(flowLayout1);
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setPreferredSize(new java.awt.Dimension(900, 108));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTextField1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextField1.setText("от");
-        jPanel4.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 44, 170, 31));
-
-        jTextField2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextField2.setText("до");
-        jPanel4.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(195, 44, 170, 31));
-
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton1.setText("Найти");
-        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 10, -1, 36));
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel4.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 40, 141, 30));
-
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel1.setText("Стоймость:");
-        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 11, -1, -1));
-
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel2.setText("Площадь (м  ):");
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(407, 11, -1, -1));
-
-        jTextField3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextField3.setText("до");
-        jPanel4.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(524, 44, 107, 31));
-
-        jTextField4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextField4.setText("от");
-        jPanel4.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(407, 44, 107, 31));
-
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel3.setText("2");
-        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, -1, -1));
-
-        jPanel3.add(jPanel4);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        jPanel2.add(jScrollPane1);
 
         jPanel1.add(jPanel2);
 
@@ -137,11 +147,31 @@ public class BuyHome extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
+        jTextField1.setText("");
+    }//GEN-LAST:event_jTextField1FocusGained
+
+    private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusLost
+        if (jTextField1.getText().equals("")) {
+            jTextField1.setText("От");
+        }
+    }//GEN-LAST:event_jTextField1FocusLost
+
+    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
+        jTextField2.setText("");
+    }//GEN-LAST:event_jTextField2FocusGained
+
+    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
+        if (jTextField2.getText().equals("")) {
+            jTextField2.setText("До");
+        }
+    }//GEN-LAST:event_jTextField2FocusLost
 
     /**
      * @param args the command line arguments
@@ -154,7 +184,7 @@ public class BuyHome extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

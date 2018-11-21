@@ -13,16 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "realty")
-@NamedQueries({
-    @NamedQuery(name = "Realty.findAll", query = "SELECT r FROM Realty r")})
 public class Realty implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -153,7 +149,9 @@ public class Realty implements Serializable {
 
     @Override
     public String toString() {
-        return "newpackage.Realty[ realtyId=" + realtyId + " ]";
+        return "Realty{" + "realtyId=" + realtyId + ", rooms=" + rooms + ", typeRealty=" + typeRealty + ", info=" + info + ", image=" + image + ", area=" + area + ", numberFloors=" + numberFloors + ", entryList=" + entryList + ", city=" + city + '}';
     }
+
+ 
 
 }

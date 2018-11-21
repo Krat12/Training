@@ -10,8 +10,14 @@ import com.mycompany.hibirnate.gui.realtor.RealtorForm;
 import com.mycompany.hibirnate.gui.user.UserForm;
 import com.mycompany.hibirnate.model.User;
 import com.mycompany.hibirnate.servise.UserService;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 /**
  *
@@ -83,12 +89,10 @@ public class Authorization extends javax.swing.JFrame {
         jLabel2.setText("Password:");
 
         txt_login.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        txt_login.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txt_login.setSelectionColor(new java.awt.Color(255, 255, 255));
+        txt_login.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         txt_password.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        txt_password.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txt_password.setSelectionColor(new java.awt.Color(255, 255, 255));
+        txt_password.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jButton1.setText("Cancel");
@@ -110,6 +114,8 @@ public class Authorization extends javax.swing.JFrame {
         btn_back.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_back.setText("Назад");
         btn_back.setBorder(null);
+        btn_back.setBorderPainted(false);
+        btn_back.setDefaultCapable(false);
         btn_back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_backActionPerformed(evt);
@@ -206,28 +212,12 @@ public class Authorization extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Authorization.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Authorization.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Authorization.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Authorization.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new WindowsLookAndFeel());
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Authorization.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
