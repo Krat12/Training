@@ -30,8 +30,8 @@ public class TesrQury {
         RealtorService realtorService = new RealtorService();
         UserService service = new UserService();
         City city = service.getCityByName("Новокузнецк");
-        List<Realty> realtys = realtorService.getRealtyByTypeAndCity("Квартира", city);
-        System.out.println(realtys.get(1).getEntryList());
+       // List<Realty> realtys = realtorService.getRealtyByTypeAndCity("Квартира", city);
+       // System.out.println(realtys.get(1).getEntryList());
     }
     
 }

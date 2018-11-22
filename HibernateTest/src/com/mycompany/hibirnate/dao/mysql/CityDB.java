@@ -9,21 +9,24 @@ import com.mycompany.hibirnate.dao.interfaces.CityDAO;
 import com.mycompany.hibirnate.dao.interfaces.AbstractObjectDao;
 import com.mycompany.hibirnate.model.City;
 import com.mycompany.hibirnate.utill.HibernateSessionFactoryUtill;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 /**
  *
  * @author WSR
  */
-public class CityDB extends AbstractObjectDao<City,Integer> implements CityDAO{
+public class CityDB extends AbstractObjectDao<City, Integer> implements CityDAO {
 
     private static final String CITY_OBJECT = "City";
-    
+
     public CityDB() {
-      super(CITY_OBJECT);
+        super(CITY_OBJECT);
     }
 
-     private static CityDB instance;
+    private static CityDB instance;
 
     public CityDB getInstance() {
         if (instance == null) {
@@ -31,15 +34,27 @@ public class CityDB extends AbstractObjectDao<City,Integer> implements CityDAO{
         }
         return instance;
     }
-    
+
     @Override
     public City getCityByName(String name) {
-        Query query = HibernateSessionFactoryUtill.getSessionFactory().openSession().createQuery("from City where cityname = :ParametrCity");
-        query.setParameter("ParametrCity",name);
-        City city = (City) query.uniqueResult();
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().getCurrentSession();
+        Transaction transaction = null;
+        City city = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from City where cityname = :ParametrCity");
+            query.setParameter("ParametrCity", name);
+            city = (City) query.uniqueResult();
+            if(city != null){
+                Hibernate.initialize(city.getRegion());
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            System.out.println("Exeption"+ e);
+        }
+
         return city;
     }
-    
-    
-    
+
 }

@@ -45,7 +45,7 @@ public abstract class AbstractObjectDao<Entity, Key> implements ObjectDAO<Entity
 
     @Override
     public List<Entity> getAllObject() {
-
+        
         List<Entity> entitys = (List<Entity>) HibernateSessionFactoryUtill.getSessionFactory().openSession().createQuery("FROM " + entityName).list();
 
         return entitys;

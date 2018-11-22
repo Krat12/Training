@@ -6,6 +6,7 @@
 package com.mycompany.hibirnate.gui.realtor;
 
 import com.mycompany.hibirnate.gui.MainWindow;
+import com.mycompany.hibirnate.model.City;
 import com.mycompany.hibirnate.model.Realty;
 import com.mycompany.hibirnate.model.Region;
 import com.mycompany.hibirnate.servise.RealtorService;
@@ -23,16 +24,17 @@ import javax.swing.table.JTableHeader;
  */
 public class EntrySaleForm extends javax.swing.JFrame {
 
-   private static UserService service = new UserService();
-   private static RealtorService realtorService = new RealtorService();
-   
+    private static UserService service = new UserService();
+    private static RealtorService realtorService = new RealtorService();
+
     public EntrySaleForm() {
         initComponents();
         setLocationRelativeTo(null);
         TableRealtorEnrty();
         getAllRegions();
     }
-   private void getAllCitybyRegion() {
+
+    private void getAllCitybyRegion() {
         List<Region> regions = service.getAllRegions();
         for (Region region : regions) {
             if (region.getRegionName().equals(cmb_region.getSelectedItem())) {
@@ -42,23 +44,25 @@ public class EntrySaleForm extends javax.swing.JFrame {
 
             }
         }
+        
     }
-       private void getAllRegions() {
+
+    private void getAllRegions() {
         List<Region> regions = service.getAllRegions();
         for (Region region : regions) {
             cmb_region.addItem(region.getRegionName());
         }
     }
-   
-   private void TableRealtorEnrty(){
-       List<Realty> list = realtorService.getAllRealty();
-       System.out.println(list);
-       jTable2.setModel(new ModelEntryForm(list));
-       settingsTable(jTable2);
-   }
-   
+
+    private void TableRealtorEnrty() {
+        List<Realty> list = realtorService.getAllRealty();
+        System.out.println(list);
+        jTable2.setModel(new ModelEntryForm(list));
+        settingsTable(jTable2);
+    }
+
     private void settingsTable(JTable table) {
-        
+
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.setDefaultRenderer(Integer.class, centerRenderer);
@@ -68,7 +72,7 @@ public class EntrySaleForm extends javax.swing.JFrame {
         JTableHeader header = table.getTableHeader();
         header.setFont(new Font("Aria", Font.BOLD, 18));
     }
-   
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -141,9 +145,14 @@ public class EntrySaleForm extends javax.swing.JFrame {
 
         cmb_city.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         cmb_city.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Город" }));
+        cmb_city.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_cityActionPerformed(evt);
+            }
+        });
 
         cmb_realty.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        cmb_realty.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Квартира", "Дом", "Земельный участок" }));
+        cmb_realty.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Недвижимость", "Квартира", "Дом", "Земельный участок" }));
         cmb_realty.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_realtyActionPerformed(evt);
@@ -224,18 +233,19 @@ public class EntrySaleForm extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb_regionActionPerformed
 
     private void cmb_realtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_realtyActionPerformed
-        if (cmb_realty.getSelectedItem().equals("Дом")) {
-            
-
-        }
-        if (cmb_realty.getSelectedItem().equals("Квартира")) {
-      
-        }
-        if (cmb_realty.getSelectedItem().equals("Земельный участок")) {
-
-        }
+       
+            //City city = service.getCityByName(String.valueOf(cmb_city.getSelectedItem()));
+            List<Realty> realtys = realtorService.getRealtyByType(String.valueOf(cmb_realty.getSelectedItem()));
+            jTable2.setModel(new ModelEntryForm(realtys));
+            ((ModelEntryForm) jTable2.getModel()).fireTableDataChanged();
+        
 
     }//GEN-LAST:event_cmb_realtyActionPerformed
+
+    private void cmb_cityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_cityActionPerformed
+
+
+    }//GEN-LAST:event_cmb_cityActionPerformed
 
     /**
      * @param args the command line arguments

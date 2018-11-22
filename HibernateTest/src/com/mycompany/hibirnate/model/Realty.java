@@ -42,10 +42,10 @@ public class Realty implements Serializable {
     private Float area;
     @Column(name = "number_floors")
     private Integer numberFloors;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "realty", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "realty", fetch = FetchType.EAGER)
     private List<Entry> entryList;
     @JoinColumn(name = "city_id", referencedColumnName = "City_id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private City city;
 
     public Realty() {

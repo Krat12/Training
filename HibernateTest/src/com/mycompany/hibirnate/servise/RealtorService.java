@@ -6,22 +6,24 @@ import com.mycompany.hibirnate.model.City;
 import com.mycompany.hibirnate.model.Realty;
 import java.util.List;
 
-
 public class RealtorService {
-    
+
     private RealtyDAO realtyDAO = RealtyDB.getInstance();
+    private static List<Realty> allRealtys;
 
     public RealtorService() {
     }
-    
-    public List<Realty> getRealtyByTypeAndCity(String type,City city){
-         List<Realty> realtys = realtyDAO.getRealtyByTypeAndCity(type, city);
+
+    public List<Realty> getRealtyByType(String type) {
+        List<Realty> realtys = realtyDAO.getRealtyByTypeRealty(type);
         return realtys;
     }
-    
-    public List<Realty>getAllRealty(){
-         List<Realty> allRealtys = realtyDAO.getAllObject();
-         return allRealtys;
+
+    public List<Realty> getAllRealty() {
+        if (allRealtys == null) {
+            allRealtys = realtyDAO.getAllObject();
+        }
+        return allRealtys;
     }
 
 }

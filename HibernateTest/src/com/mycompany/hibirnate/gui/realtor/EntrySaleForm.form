@@ -195,6 +195,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmb_cityActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -205,10 +208,11 @@
                   <Font name="Arial" size="18" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
-                    <StringItem index="0" value="&#x41a;&#x432;&#x430;&#x440;&#x442;&#x438;&#x440;&#x430;"/>
-                    <StringItem index="1" value="&#x414;&#x43e;&#x43c;"/>
-                    <StringItem index="2" value="&#x417;&#x435;&#x43c;&#x435;&#x43b;&#x44c;&#x43d;&#x44b;&#x439; &#x443;&#x447;&#x430;&#x441;&#x442;&#x43e;&#x43a;"/>
+                  <StringArray count="4">
+                    <StringItem index="0" value="&#x41d;&#x435;&#x434;&#x432;&#x438;&#x436;&#x438;&#x43c;&#x43e;&#x441;&#x442;&#x44c;"/>
+                    <StringItem index="1" value="&#x41a;&#x432;&#x430;&#x440;&#x442;&#x438;&#x440;&#x430;"/>
+                    <StringItem index="2" value="&#x414;&#x43e;&#x43c;"/>
+                    <StringItem index="3" value="&#x417;&#x435;&#x43c;&#x435;&#x43b;&#x44c;&#x43d;&#x44b;&#x439; &#x443;&#x447;&#x430;&#x441;&#x442;&#x43e;&#x43a;"/>
                   </StringArray>
                 </Property>
               </Properties>

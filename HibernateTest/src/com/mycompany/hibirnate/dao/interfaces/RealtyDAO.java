@@ -15,6 +15,6 @@ import java.util.List;
  */
 public interface RealtyDAO extends ObjectDAO<Realty, Integer>{
     
-    List<Realty> getRealtyByTypeAndCity(String type,City city);
+    List<Realty> getRealtyByTypeRealty(String type);
     
 }
