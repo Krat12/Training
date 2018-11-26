@@ -1,7 +1,9 @@
 package com.mycompany.hibirnate.dao.mysql;
 
 import com.mycompany.hibirnate.dao.interfaces.AbstractObjectDao;
+import com.mycompany.hibirnate.dao.interfaces.CityDAO;
 import com.mycompany.hibirnate.dao.interfaces.RealtyDAO;
+import com.mycompany.hibirnate.model.City;
 import com.mycompany.hibirnate.model.Realty;
 import com.mycompany.hibirnate.utill.HibernateSessionFactoryUtill;
 import java.util.List;
@@ -12,6 +14,7 @@ import org.hibernate.query.Query;
 public class RealtyDB extends AbstractObjectDao<Realty, Integer> implements RealtyDAO {
 
     private static final String REALTY_OBJECT = "Realty";
+    private CityDAO cityDAO = CityDB.getInstance();
 
     public RealtyDB() {
         super(REALTY_OBJECT);
@@ -31,12 +34,13 @@ public class RealtyDB extends AbstractObjectDao<Realty, Integer> implements Real
         Session session = HibernateSessionFactoryUtill.getSessionFactory().getCurrentSession();
         Transaction transaction = null;
         List<Realty> realtys = null;
+        System.err.println(cityName);
         try {
             transaction = session.beginTransaction();
             boolean isFirst = true;
             StringBuilder query = new StringBuilder("from Realty ");
 
-            if (type != "Недвижимость") {
+            if (!type.equals("Недвижимость")) {
                 if (isFirst) {
                     query.append(" where typeRealty = '" + type + "'");
                 } else {
@@ -45,15 +49,16 @@ public class RealtyDB extends AbstractObjectDao<Realty, Integer> implements Real
                 isFirst = false;
             }
 
-            if (cityName != "Город") {
+            if (!cityName.equals("Город")) {
+                 City city = cityDAO.getCityByName(cityName);
                 if (isFirst) {
-                    query.append(" where city = '" + cityName + "'");
+                    query.append(" where city = " + city.getCityid());
                 } else {
-                    query.append(" and city = '" + cityName + "'");
+                    query.append(" and city = " + city.getCityid());
                 }
                 isFirst = false;
             }
-
+            
             System.out.println(query);
             Query result = session.createQuery(query.toString());
             realtys = result.list();

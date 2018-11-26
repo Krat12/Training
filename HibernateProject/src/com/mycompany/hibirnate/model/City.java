@@ -35,7 +35,7 @@ public class City implements Serializable {
     @JoinColumn(name = "Region_id", referencedColumnName = "region_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Region region;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", fetch = FetchType.EAGER)
     private List<Realty> realtyList;
 
     public City() {

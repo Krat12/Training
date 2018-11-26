@@ -6,7 +6,6 @@
 package com.mycompany.hibirnate.gui.realtor;
 
 import com.mycompany.hibirnate.gui.MainWindow;
-import com.mycompany.hibirnate.model.City;
 import com.mycompany.hibirnate.model.Realty;
 import com.mycompany.hibirnate.model.Region;
 import com.mycompany.hibirnate.servise.RealtorService;
@@ -26,6 +25,7 @@ public class EntrySaleForm extends javax.swing.JFrame {
 
     private static UserService service = new UserService();
     private static RealtorService realtorService = new RealtorService();
+    private static List<Realty> realtys;
 
     public EntrySaleForm() {
         initComponents();
@@ -44,7 +44,7 @@ public class EntrySaleForm extends javax.swing.JFrame {
 
             }
         }
-        
+
     }
 
     private void getAllRegions() {
@@ -57,8 +57,8 @@ public class EntrySaleForm extends javax.swing.JFrame {
     private void TableRealtorEnrty() {
         List<Realty> list = realtorService.getAllRealty();
         System.out.println(list);
-        jTable2.setModel(new ModelEntryForm(list));
-        settingsTable(jTable2);
+        tb_entry.setModel(new ModelEntryForm(list));
+        settingsTable(tb_entry);
     }
 
     private void settingsTable(JTable table) {
@@ -80,7 +80,7 @@ public class EntrySaleForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tb_entry = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         btn_back1 = new javax.swing.JButton();
         btn_logout = new javax.swing.JButton();
@@ -101,8 +101,8 @@ public class EntrySaleForm extends javax.swing.JFrame {
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(453, 600));
 
-        jTable2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tb_entry.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        tb_entry.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -113,8 +113,13 @@ public class EntrySaleForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable2.setRowHeight(80);
-        jScrollPane2.setViewportView(jTable2);
+        tb_entry.setRowHeight(80);
+        tb_entry.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_entryMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tb_entry);
 
         jPanel2.add(jScrollPane2);
 
@@ -245,25 +250,23 @@ public class EntrySaleForm extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb_regionActionPerformed
 
     private void cmb_realtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_realtyActionPerformed
-       
-            //City city = service.getCityByName(String.valueOf(cmb_city.getSelectedItem()));
-//            List<Realty> realtys = realtorService.getRealtyByType(String.valueOf(cmb_realty.getSelectedItem()));
-//            jTable2.setModel(new ModelEntryForm(realtys));
-//            ((ModelEntryForm) jTable2.getModel()).fireTableDataChanged();
-        
 
     }//GEN-LAST:event_cmb_realtyActionPerformed
 
     private void cmb_cityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_cityActionPerformed
 
-
     }//GEN-LAST:event_cmb_cityActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-           List<Realty> realtys = realtorService.getRealtyByType(String.valueOf(cmb_realty.getSelectedItem()),String.valueOf(cmb_city.getSelectedItem()));
-            jTable2.setModel(new ModelEntryForm(realtys));
-            ((ModelEntryForm) jTable2.getModel()).fireTableDataChanged();
+        realtys = realtorService.getRealtyByType(String.valueOf(cmb_realty.getSelectedItem()), String.valueOf(cmb_city.getSelectedItem()));
+        tb_entry.setModel(new ModelEntryForm(realtys));
+        ((ModelEntryForm) tb_entry.getModel()).fireTableDataChanged();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tb_entryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_entryMouseClicked
+        InformationForm informationForm = new InformationForm();
+        informationForm.setVisible(true);
+    }//GEN-LAST:event_tb_entryMouseClicked
 
     /**
      * @param args the command line arguments
@@ -311,6 +314,6 @@ public class EntrySaleForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tb_entry;
     // End of variables declaration//GEN-END:variables
 }

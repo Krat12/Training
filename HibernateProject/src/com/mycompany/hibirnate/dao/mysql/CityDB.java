@@ -28,7 +28,7 @@ public class CityDB extends AbstractObjectDao<City, Integer> implements CityDAO 
 
     private static CityDB instance;
 
-    public CityDB getInstance() {
+    public static CityDB getInstance() {
         if (instance == null) {
             instance = new CityDB();
         }
@@ -37,21 +37,19 @@ public class CityDB extends AbstractObjectDao<City, Integer> implements CityDAO 
 
     @Override
     public City getCityByName(String name) {
-        Session session = HibernateSessionFactoryUtill.getSessionFactory().getCurrentSession();
-        Transaction transaction = null;
+        Session session = HibernateSessionFactoryUtill.getSessionFactory().openSession();
         City city = null;
         try {
-            transaction = session.beginTransaction();
             Query query = session.createQuery("from City where cityname = :ParametrCity");
             query.setParameter("ParametrCity", name);
             city = (City) query.uniqueResult();
             if(city != null){
                 Hibernate.initialize(city.getRegion());
             }
-            transaction.commit();
         } catch (Exception e) {
-            transaction.rollback();
             System.out.println("Exeption"+ e);
+        }finally{
+            session.close();
         }
 
         return city;
