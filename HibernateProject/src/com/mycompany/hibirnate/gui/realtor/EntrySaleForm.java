@@ -6,17 +6,18 @@
 package com.mycompany.hibirnate.gui.realtor;
 
 import com.mycompany.hibirnate.gui.MainWindow;
+import com.mycompany.hibirnate.model.Entry;
 import com.mycompany.hibirnate.model.Realty;
 import com.mycompany.hibirnate.model.Region;
 import com.mycompany.hibirnate.servise.RealtorService;
 import com.mycompany.hibirnate.servise.UserService;
 import java.awt.Font;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-
 /**
  *
  * @author Admin
@@ -25,7 +26,7 @@ public class EntrySaleForm extends javax.swing.JFrame {
 
     private static UserService service = new UserService();
     private static RealtorService realtorService = new RealtorService();
-    private static List<Realty> realtys;
+    private static  List<Entry> list;
 
     public EntrySaleForm() {
         initComponents();
@@ -55,7 +56,7 @@ public class EntrySaleForm extends javax.swing.JFrame {
     }
 
     private void TableRealtorEnrty() {
-        List<Realty> list = realtorService.getAllRealty();
+        list = realtorService.getAllEntry();
         System.out.println(list);
         tb_entry.setModel(new ModelEntryForm(list));
         settingsTable(tb_entry);
@@ -180,7 +181,7 @@ public class EntrySaleForm extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(btn_back1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(224, 224, 224)
+                .addGap(120, 120, 120)
                 .addComponent(cmb_region, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -189,24 +190,21 @@ public class EntrySaleForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_back1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmb_region, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmb_realty, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(17, 17, 17)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_back1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmb_city, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmb_region, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmb_realty, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -258,13 +256,27 @@ public class EntrySaleForm extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb_cityActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        realtys = realtorService.getRealtyByType(String.valueOf(cmb_realty.getSelectedItem()), String.valueOf(cmb_city.getSelectedItem()));
-        tb_entry.setModel(new ModelEntryForm(realtys));
-        ((ModelEntryForm) tb_entry.getModel()).fireTableDataChanged();
+//       List<Realty> realtys = realtorService.getRealtyByType(String.valueOf(cmb_realty.getSelectedItem()), String.valueOf(cmb_city.getSelectedItem()));
+//        tb_entry.setModel(new ModelEntryForm(realtys));
+//        ((ModelEntryForm) tb_entry.getModel()).fireTableDataChanged();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tb_entryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_entryMouseClicked
+        int index = tb_entry.getSelectedRow();  
         InformationForm informationForm = new InformationForm();
+        informationForm.lbl_email.setText(list.get(index).getUser1().getEmail());
+        informationForm.lbl_namefull.setText(list.get(index).getFullname());
+        informationForm.lbl_phone.setText(list.get(index).getPhone());
+        informationForm.lbl_cost.setText(String.valueOf(list.get(index).getCost()));
+        informationForm.lbl_city.setText(list.get(index).getRealty().getCity().getCityname());
+        informationForm.lbl_adres.setText(list.get(index).getAdress());
+        informationForm.lbl_typeRealty.setText(list.get(index).getTypeEntry());
+        informationForm.jLabel3.setText(list.get(index).getRealty().getInfo());
+        informationForm.lbl_amountF.setText(String.valueOf(list.get(index).getRealty().getNumberFloors()));
+        informationForm.lbl_amountroom.setText(String.valueOf(list.get(index).getRealty().getRooms()));
+        informationForm.lbl_area.setText(String.valueOf(list.get(index).getRealty().getArea()));
+//        ImageIcon icon = new ImageIcon(list.get(index).getRealty().getImage());
+//        new ImageIcon(icon.getImage().getScaledInstance(, HEIGHT, WIDTH));
         informationForm.setVisible(true);
     }//GEN-LAST:event_tb_entryMouseClicked
 

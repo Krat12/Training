@@ -1,5 +1,6 @@
 package com.mycompany.hibirnate.gui.realtor;
 
+import com.mycompany.hibirnate.model.Entry;
 import com.mycompany.hibirnate.model.Realty;
 import java.awt.Image;
 import java.util.List;
@@ -10,15 +11,15 @@ import javax.swing.table.AbstractTableModel;
 public class ModelEntryForm extends AbstractTableModel {
 
     private static final int COLUMN_COUNT = 7;
-    private List<Realty> realtys;
+    private List<Entry> entrys;
 
-    public ModelEntryForm(List<Realty> realtys) {
-        this.realtys = realtys;
+    public ModelEntryForm(List<Entry> realtys) {
+        this.entrys = realtys;
     }
 
     @Override
     public int getRowCount() {
-        return realtys.size();
+        return entrys.size();
     }
 
     @Override
@@ -28,28 +29,26 @@ public class ModelEntryForm extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Realty realty = realtys.get(rowIndex);
+        Entry enrty = entrys.get(rowIndex);
 
         switch (columnIndex) {
             case 0:
-                ImageIcon image = new ImageIcon(realty.getImage());
+                ImageIcon image = new ImageIcon(enrty.getRealty().getImage());
                 ImageIcon picture = new ImageIcon(image.getImage().getScaledInstance(260, 150, Image.SCALE_SMOOTH));
                 return picture;
             case 1:
-
-                return realty.getTypeRealty();
-
+                return enrty.getRealty().getTypeRealty();
             case 2:
-                return realty.getArea();
+                return enrty.getRealty().getArea();
             case 3:
-                return realty.getCity().getCityname();
+                return enrty.getRealty().getCity().getCityname();
             case 4:
-                return realty.getEntryList().get(0).getAdress();
+                return enrty.getAdress();
             case 5:
-                return realty.getEntryList().get(0).getFullname();
+                return enrty.getFullname();
             case 6:
 
-                return realty.getEntryList().get(0).getPhone();
+                return enrty.getPhone();
 
         }
 
