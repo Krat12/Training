@@ -17,6 +17,8 @@ public class Film {
         this.nameFilm = nameFilm;
         this.picture = picture;
         this.NameStud = NameStud;
+        System.out.println("Hello");
+       
     }
     
 
